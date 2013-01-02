@@ -439,6 +439,8 @@ void initSDL() {
 */
 int main(int argc, char **argv) 
 {   
+    glutInit(&argc, argv);
+
     // init global objects
     worlds = new list<World*>();
     parser = new ZarParser();
