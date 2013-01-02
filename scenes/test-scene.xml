@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene>
+
+  <!-- $Id: scene1.xml 265 2005-04-26 18:02:06Z sandro $ -->
+
+  <param name="r">
+    <value>
+      <add left="2">
+        <right>
+          <sin>
+            <operand>
+                <div left="time" right="100"/>
+            </operand>
+          </sin>
+        </right>
+      </add>
+    </value>
+  </param>
+
+  <param name="alpha">
+    <value>
+      <div left="time" right="10"/>
+    </value>
+  </param>
+
+  <param name="shear">
+    <value>
+      <div right="2">
+        <left>
+          <sin><operand>
+            <div left="time" right="500"/>
+          </operand></sin>
+        </left>
+      </div>
+    </value>
+  </param>
+
+  <param name="shear2">
+    <value>
+      <div right="2">
+        <left>
+          <sin><operand>
+            <div right="500">
+              <left><add left="time" right="500"/></left>
+            </div>
+          </operand></sin>
+        </left>
+      </div>
+    </value>
+  </param>
+
+  <param name="a2">
+    <value>
+      <div left="time" right="5"/>
+    </value>
+  </param>
+
+  <param name="inst">
+    <value>
+      <add left="11">
+        <right>
+          <mult left="10">
+            <right>
+              <sin>
+                <operand>
+                  <div left="time" right="800"/>
+                </operand>
+              </sin>
+            </right>
+          </mult>
+        </right>
+      </add>
+    </value>
+  </param>
+
+  <group id="world">
+    <spherical-texture filename="../resources/textures/test_rgb.png"/>
+
+    <!-- a big circle -->
+    <group>
+        <translate x="0.0" y="0.0" z="5.0"/>
+    	<rotate axis-x="1" axis-y="0" axis-z="1">
+          <angle><div left="alpha" right="2"/></angle>
+        </rotate>
+        <linear-texture filename="../resources/textures/test_rgb.png"/>
+        <circle radius="7" vertex-count="30"/>
+    </group>
+
+    <!-- a pumping sphere -->
+    <sphere slices="30" stacks="20" radius="r"/>
+
+    <!-- a tail of cubes -->
+    <group>
+        <rotate angle="a2" axis-x="0.5" axis-y="0.5" axis-z="-0.5">
+        </rotate>
+    	<translate x="0.0" y="4.0" z="-5.0"/>
+        <color red="0.0" green="0.5" blue="1.0" alpha="0.6" />
+        <spin-array angle="15.0" axis-x="0.5" axis-y="-0.4" axis-z="0.0" instances="inst"/>
+	    <point id="light0" />
+	    <cube size="0.8"/>
+    </group>
+
+    <!-- a sheared cube -->
+    <group>
+        <shear x-zcoeff="shear" z-ycoeff="shear2"/>
+        <scale x="3" y="3" z="3"/>
+        <linear-texture filename="../resources/textures/test_rgba.png"/>
+	    <cube size="2"/>
+    </group>
+
+    <!-- cameras -->
+    <group>
+    	<translate x="0.0" y="1.0" z="-10.0"/>
+	    <point id="cam1" />
+    </group>
+    <group>
+    	<translate x="0.0" y="5.0" z="-10.0"/>
+	    <point id="cam3" />
+    </group>
+    <group>
+    	<translate x="0.0" y="0.0" z="-15.0"/>
+    	<rotate angle="alpha" axis-x="0" axis-y="1" axis-z="0" />
+	    <point id="cam2" />
+    </group>
+
+    <!-- lights -->
+    <group>
+    	<translate x="5.0" y="4.0" z="-5.0"/>
+	    <point id="light1" />
+    </group>
+    <group>
+    	<translate x="-5.0" y="1.0" z="-5.0"/>
+	    <point id="light2" />
+    </group>
+
+    <!-- the origin -->
+    <point id="zero" />
+  </group>
+
+  <camera-list>
+    <fixed-camera key="1" position="cam1" lookat="zero" opening="1"/> <!-- static camera -->
+    <fixed-camera key="2" position="cam2" lookat="zero" opening="1"/> <!-- rotating camera -->
+    <free-camera key="2" position="cam3" lookat="zero" opening="1"/>
+  </camera-list>
+
+  <light-list>
+    <ambient intensity="0.5"/>
+    <lamp position="light0" intensity="10.0"/>
+    <lamp position="light1" intensity="20.0"/>
+    <lamp position="light2" intensity="20.0"/>
+    <sun  direction="light1" red-intensity="0.5" green-intensity="0" blue-intensity="0"/>
+  </light-list>
+
+  <camera-schedule>
+    <checkpoint time="1000" camera="2"/>
+    <checkpoint time="5000" camera="3"/>
+  </camera-schedule>
+</scene>

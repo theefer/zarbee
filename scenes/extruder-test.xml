@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene>
+
+  <param name="alpha">
+    <value>
+      <div left="time" right="10"/>
+    </value>
+  </param>
+
+  <param name="beta">
+    <value>
+      <div left="time" right="-5"/>
+    </value>
+  </param>
+
+  <param name="phi">
+    <value>
+      <div right="2">
+        <left>
+          <sin>
+            <operand>
+               <div left="alpha" right="50" />
+            </operand>
+          </sin>
+        </left>
+      </div>
+    </value>
+  </param>
+
+  <group id="world">
+    <linear-texture filename="../resources/textures/test_rgb.png"/>
+    <group>
+    	<translate x="0.0" y="1.0" z="-10.0"/>
+	    <point id="cam1" />
+    </group>
+    <group>
+    	<translate x="0.0" y="5.0" z="-10.0"/>
+	    <point id="cam3" />
+    </group>
+    <group>
+    	<translate x="5.0" y="4.0" z="-5.0"/>
+	    <point id="light0" />
+    </group>
+    <group>
+    	<translate x="0.0" y="0.0" z="-15.0"/>
+    	<rotate angle="alpha" axis-x="0" axis-y="1" axis-z="0" />
+	    <point id="cam2" />
+    </group>
+
+    <group>
+        <rotate axis-x="1.0" axis-y="0.0" axis-z="0.0" angle="-90" />
+        <translate x="4.0" y="0.0" z="0.0" />
+        <extrude angle="10" axis-x="0.1" axis-y="0.0" axis-z="phi" stacks="36" />
+        <rotate axis-x="0.3" axis-y="0.2" axis-z="1.0" angle="alpha" />
+        <circle radius="0.5" vertex-count="12" /> 
+    </group>
+   <group>
+        <extrude angle="50" axis-x="0.6" axis-y="0.5" axis-z="1" stacks="10"/>
+        <rotate axis-x="0.2" axis-y="0.6" axis-z="0.4" angle="beta" />
+        <polygon>
+            <vertex x="1" y="1" z="0"/>
+            <vertex x="2" y="1" z="0"/>
+            <vertex x="2" y="2" z="0"/>
+            <vertex x="1" y="2" z="0"/>
+        </polygon>
+    </group>    <point id="zero" />
+  </group>
+
+  <camera-list>
+    <fixed-camera key="1" position="cam1" lookat="zero" opening="1"/> <!-- static camera -->
+    <fixed-camera key="2" position="cam2" lookat="zero" opening="1"/> <!-- rotating camera -->
+    <free-camera key="2" position="cam3" lookat="zero" opening="1"/>
+  </camera-list>
+
+  <light-list>
+    <ambient intensity="0.5"/>
+    <lamp position="light0" intensity="200.0"/>
+  </light-list>
+</scene>

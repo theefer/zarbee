@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene duration="28500">
+
+    <param name="beat"><value>
+        <div left="time" right="450"/>
+    </value></param>
+
+    <param name="2beat"><value>
+        <div left="beat" right="2"/>
+    </value></param>
+
+    <param name="t50"><value>
+        <div left="time" right="50"/>
+    </value></param>
+
+    <param name="t100"><value>
+        <div left="time" right="100"/>
+    </value></param>
+
+  <!--  ** Gate **  -->
+  <param name="smooth-wave"><value>
+    <div right="4"><left>
+      <add right="3"><left>
+        <sin><operand><div left="time" right="2000"/></operand></sin>
+      </left></add>
+    </left></div>
+  </value></param>
+
+  <param name="smooth-wave-inv"><value>
+    <sub left="0" right="smooth-wave"/>
+  </value></param>
+
+  <group id="gate">
+    <group>
+      <translate x="0" y="0" z="1.2" />
+      <point id="gate-spot" />
+    </group>
+    <group>  <!-- Gate layer 1 -->
+      <translate x="0" y="0" z="-0.01"/>
+      <rotate angle="t50" axis-x="0" axis-y="0" axis-z="1"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="1" vertex-count="20"/>
+      <point id="gate-pos" />
+    </group>
+    <group>  <!-- Gate layer 2 -->
+      <translate x="0" y="0" z="0.01"/>
+      <rotate angle="t100" axis-x="0" axis-y="0" axis-z="-1"/>
+      <scale x="smooth-wave-inv" y="smooth-wave-inv" z="0"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="smooth-wave" vertex-count="20"/>
+    </group>
+    <group>  <!-- Gate border -->
+      <rotate angle="-90" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="1.1" y="0" z="0"/>
+      <extrude angle="20" axis-x="0" axis-y="0" axis-z="0" stacks="18"/>
+      <color red="0.3" green="0.3" blue="0.3" alpha="1"/>
+      <circle radius="0.1" vertex-count="6"/>
+    </group>
+  </group>
+
+    
+    <param name="sea-wave1"><value>
+        <sin operand="2beat" />
+    </value></param>
+
+    <param name="sea-wave2"><value>
+        <mult right="2"><left>
+            <sin operand="beat"/>
+        </left></mult>
+    </value></param>
+
+    <param name="cam2-angle"><value>
+        <div left="time" right="26.4"/>
+    </value></param>
+
+    <!-- ** World ** -->
+    <group id="world">
+
+        <group>
+            <translate x="0" y="-2.5" z="0" />
+            <linear-texture filename="../resources/textures/terrain.png" />
+            <terrain width="20" height="7" subdivisions="5" seed="0.3" />
+        </group>
+
+        <group>
+            <rotate axis-x="1" axis-y="0" axis-z="0" angle="90" />
+            <extrude axis-x="0" axis-y="10" axis-z="0" angle="0" stacks="2" />
+            <scale x="9" y="9" z="9" />
+            <translate x="0" y="40" z="0" />
+            <linear-texture filename="../resources/textures/cloud2.png" />
+            <circle radius="1" vertex-count="12" />
+        </group>
+
+        <group>
+            <color red="0.3" green="0.5" blue="1" alpha="1" />
+            <terrain width="20" height="sea-wave1" subdivisions="5" seed="0.4" />
+        </group>
+
+        <group>
+            <translate x="0" y="0.5" z="0" />
+            <color red="0.3" green="0.5" blue="1" alpha="0.6" />
+            <terrain width="20" height="sea-wave2" subdivisions="5" seed="0" />
+        </group>
+
+        <group>
+            <rotate axis-x="0" axis-y="1" axis-z="0" angle="0"/>
+            <translate x="4" y="3" z="5" />
+            <insert-group reference="gate" />
+        </group>
+
+        <group>
+            <point id="sun-lookat" />
+            <point id="spot-lookat" />
+            <group>
+                <translate x="1.5" y="1.5" z="1.5" />
+                <point id="sun-pos" />
+            </group>
+            <group>
+                <translate x="0" y="4" z="-5" />
+                <point id="spot-pos" />
+            </group>
+        </group>
+    
+        <group>
+            <translate x="5" y="-2" z="0" />
+            <rotate axis-x="-0.3" axis-y="1" axis-z="0" angle="t50"/>
+            <translate x="1" y="6" z="3" />
+            <point id="cam1-pos" />
+        </group>
+
+        <group>
+            <translate x="5" y="-1.5" z="4" />
+            <rotate axis-x="0" axis-y="-1" axis-z="0.2" angle="cam2-angle"/>
+            <translate x="-1" y="4.5" z="1" />
+            <point id="cam2-pos" />
+        </group>
+    </group>
+
+  <camera-list>
+    <fixed-camera key="1" position="cam1-pos" lookat="sun-lookat" opening="1.5"/>
+    <fixed-camera key="2" position="cam2-pos" lookat="gate-pos" opening="1"/>
+  </camera-list>
+
+  <light-list>
+    <!-- ** ambient light ** -->
+    <ambient intensity="0.5"/>
+
+    <!-- ** the gate spot ** -->
+    <spot position="gate-spot" lookat="gate-pos" cutoff="40" exponent="16" intensity="4"/>
+
+    <!-- ** the scenes lights ** -->
+    <sun position="sun-pos" direction="sun-lookat" intensity="4" />
+    <spot position="spot-pos" lookat="spot-lookat" cutoff="60" exponent="32" red-intensity="0.95" green-intensity="0.45" blue-intensity="0.1" />
+    <lamp position="sun-pos" intensity="20" />-->
+  </light-list>
+
+  <camera-schedule>
+    <checkpoint camera="0" time="0"/>
+    <checkpoint camera="1" time="19800"/>
+  </camera-schedule>
+
+</scene>

@@ -1,0 +1,430 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene duration="14000">
+
+<!-- FIXME:
+      * Nicer look for the tunnel
+      * Add some lights
+      * Clean-up
+-->
+
+  <!-- $Id: tunnel-3.xml 310 2005-04-29 02:17:53Z sandro $ -->
+
+  <param name="t1000"><value>
+    <div left="time" right="1000"/>
+  </value></param>
+
+  <param name="t100"><value>
+    <div left="time" right="100"/>
+  </value></param>
+
+  <param name="t100-"><value>
+    <div left="time" right="-100"/>
+  </value></param>
+
+  <param name="t50"><value>
+    <div left="time" right="50"/>
+  </value></param>
+
+  <param name="t10"><value>
+    <div left="time" right="10"/>
+  </value></param>
+
+  <param name="t20"><value>
+    <div left="time" right="20"/>
+  </value></param>
+
+
+
+
+  <!--  ** Gate **  -->
+  <param name="smooth-wave"><value>
+    <div right="10"><left>
+      <add right="2"><left>
+        <sin><operand>
+          <div left="time" right="2000"/>
+        </operand></sin>
+      </left></add>
+    </left></div>
+  </value></param>
+
+  <param name="smooth-wave-inv"><value>
+    <div left="1" right="smooth-wave"/>
+  </value></param>
+
+  <group id="gate">
+    <group>
+      <translate x="0" y="0" z="1.2" />
+      <point id="gate-spot" />
+    </group>
+    <group>  <!-- Gate layer 1 -->
+      <translate x="0" y="0" z="-0.01"/>
+      <rotate angle="t50" axis-x="0" axis-y="0" axis-z="1"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="1" vertex-count="20"/>
+      <point id="gate-pos" />
+    </group>
+    <group>  <!-- Gate layer 2 -->
+      <translate x="0" y="0" z="0.01"/>
+      <rotate angle="t100" axis-x="0" axis-y="0" axis-z="-1"/>
+      <scale x="smooth-wave-inv" y="smooth-wave-inv" z="0"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="smooth-wave" vertex-count="20"/>
+    </group>
+    <group>  <!-- Gate border -->
+      <rotate angle="90" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="1.1" y="0" z="0"/>
+      <extrude angle="20" axis-x="0" axis-y="0" axis-z="0" stacks="18"/>
+      <color red="0.3" green="0.3" blue="0.3" alpha="1"/>
+      <circle radius="0.1" vertex-count="6"/>
+    </group>
+  </group>
+
+
+
+
+  <param name="pseudo-rand-1"><value>
+    <mult left="30">
+      <right>
+        <add>
+          <right><cos><operand><div left="t10" right="40"/></operand></cos></right>
+          <left> <sin><operand><div left="t10" right="20"/></operand></sin></left>
+        </add>
+      </right>
+    </mult>
+  </value></param>
+
+  <param name="pseudo-rand-1b"><value>
+    <mult left="20">
+      <right>
+        <add>
+          <right><cos><operand><div left="t10" right="10"/></operand></cos></right>
+          <left> <sin><operand><div left="t10" right="50"/></operand></sin></left>
+        </add>
+      </right>
+    </mult>
+  </value></param>
+
+  <param name="pseudo-rand-1c"><value>
+    <mult left="40">
+      <right>
+        <add>
+          <right><cos><operand><div left="t10" right="60"/></operand></cos></right>
+          <left> <sin><operand><div left="t10" right="25"/></operand></sin></left>
+        </add>
+      </right>
+    </mult>
+  </value></param>
+
+  <param name="pseudo-rand-2">
+    <value>
+      <div right="3"><left>
+      <add right="2"><left><add>
+        <right>
+          <cos><operand><div left="t10" right="30" /></operand></cos>
+        </right>
+        <left>
+          <sin><operand><div left="t10" right="70" /></operand></sin>
+        </left>
+      </add></left></add>
+      </left></div>
+    </value>
+  </param>
+
+  <param name="pseudo-rand-3">
+    <value>
+      <div right="3"><left>
+      <add right="2"><left><add>
+        <right>
+          <cos><operand><div left="t10" right="40" /></operand></cos>
+        </right>
+        <left>
+          <sin><operand><div left="t10" right="20" /></operand></sin>
+        </left>
+      </add></left></add>
+      </left></div>
+    </value>
+  </param>
+
+  <param name="pseudo-rand-4">
+    <value>
+      <div right="3"><left>
+      <add right="2"><left><add>
+        <right>
+          <cos><operand><div left="t10" right="50" /></operand></cos>
+        </right>
+        <left>
+          <sin><operand><div left="t10" right="35" /></operand></sin>
+        </left>
+      </add></left></add>
+      </left></div>
+    </value>
+  </param>
+
+
+
+  <!-- ** Crazy Pipe ** -->
+  <group id="crazy-pipe">
+    <translate x="pseudo-rand-3" y="0" z="0" />
+    <extrude angle="pseudo-rand-1" axis-x="0" axis-y="0" axis-z="pseudo-rand-2" stacks="20" />
+    <translate x="0" y="0">
+      <z><sub left="0"><right><mult left="pseudo-rand-2" right="-10"/></right></sub></z>
+    </translate>
+    <rotate axis-x="0.3" axis-y="0.2" axis-z="1.0" angle="t10" />
+    <color red="1" green="0.2" blue="0.2" alpha="1"/>
+    <circle radius="0.5" vertex-count="10"/>
+  </group>
+
+  <group id="crazy-pipe-2">
+    <translate x="pseudo-rand-2" y="0" z="0" />
+    <extrude angle="pseudo-rand-1b" axis-x="0" axis-y="0" axis-z="pseudo-rand-4" stacks="20" />
+    <translate x="0" y="0">
+      <z><sub left="0"><right><mult left="pseudo-rand-4" right="-10"/></right></sub></z>
+    </translate>
+    <rotate axis-x="0.3" axis-y="-0.2" axis-z="1.0" angle="t10" />
+    <color red="1" green="0.2" blue="0.2" alpha="1"/>
+    <circle radius="0.5" vertex-count="10"/>
+  </group>
+
+  <group id="crazy-pipe-3">
+    <translate x="pseudo-rand-4" y="0" z="0" />
+    <extrude angle="pseudo-rand-1c" axis-x="0" axis-y="0" axis-z="pseudo-rand-3" stacks="20" />
+    <translate x="0" y="0">
+      <z><sub left="0"><right><mult left="pseudo-rand-3" right="-10"/></right></sub></z>
+    </translate>
+    <rotate axis-x="-0.3" axis-y="-0.2" axis-z="1.0" angle="t10" />
+    <color red="1" green="0.2" blue="0.2" alpha="1"/>
+    <circle radius="0.5" vertex-count="10"/>
+  </group>
+
+
+  <!-- ** Crazy Cubes ** -->
+  <param name="crazy-cubes-number" value="10"/>
+  <group id="crazy-cubes">
+    <spin-array angle="0" axis-x="pseudo-rand-2" axis-y="pseudo-rand-2" axis-z="0" instances="crazy-cubes-number"/>
+    <rotate angle="t10" axis-x="1" axis-y="0" axis-z="3"/>
+    <spin-array angle="t20" axis-x="0" axis-y="0" axis-z="pseudo-rand-3" instances="crazy-cubes-number"/>
+    <rotate angle="180" axis-x="1" axis-y="0" axis-z="0"/>
+    <color red="0.4" green="0.7" blue="0.8" alpha="1"/>
+    <cube size="0.5"/>
+  </group>
+
+
+  <!-- ** Lasers ** -->
+  <group id="laser-projector">
+    <color red="0" green="0" blue="0" alpha="1"/>
+    <cube size="1"/>
+  </group>
+
+  <group id="lasers">
+    <param name="laser-angle"><value>
+      <min left="30"><right>
+      <max left="0" ><right>
+        <add left="15"><right>
+          <mult left="20"><right><sin operand="t1000"/></right></mult>
+        </right></add>
+      </right></max>
+      </right></min>
+    </value></param>
+    <group>
+      <rotate angle="laser-angle" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="0" y="6" z="-16"/>
+      <rotate angle="180" axis-x="1" axis-y="0" axis-z="0"/>
+      <color red="1" green="0" blue="0" alpha="0.3"/>
+      <cylinder bottom="0.2" top="0.2" height="30" stacks="1" slices="12"/>
+      <point id="laser1-position"/>
+      <insert-group reference="laser-projector"/>
+      <group>
+        <translate x="0" y="0" z="30"/>
+        <point id="laser1-lookat"/>
+      </group>
+    </group>
+    <group>
+      <rotate angle="laser-angle" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="0" y="6" z="-16"/>
+      <rotate angle="180" axis-x="1" axis-y="0" axis-z="0"/>
+      <rotate angle="120" axis-x="0" axis-y="0" axis-z="1"/>
+      <color red="1" green="0" blue="0" alpha="0.3"/>
+      <cylinder bottom="0.2" top="0.2" height="30" stacks="1" slices="12"/>
+      <point id="laser2-position"/>
+      <insert-group reference="laser-projector"/>
+      <group>
+        <translate x="0" y="0" z="30"/>
+        <point id="laser2-lookat"/>
+      </group>
+    </group>
+    <group>
+      <rotate angle="laser-angle" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="0" y="6" z="-16"/>
+      <rotate angle="180" axis-x="1" axis-y="0" axis-z="0"/>
+      <rotate angle="240" axis-x="0" axis-y="0" axis-z="1"/>
+      <color red="1" green="0" blue="0" alpha="0.3"/>
+      <cylinder bottom="0.2" top="0.2" height="30" stacks="1" slices="12"/>
+      <point id="laser3-position"/>
+      <insert-group reference="laser-projector"/>
+      <group>
+        <translate x="0" y="0" z="30"/>
+        <point id="laser3-lookat"/>
+      </group>
+    </group>
+  </group>
+
+
+
+  <!-- ** Tunnel 3 ** -->
+  <param name="T3-sphere-radius" value="10"/>
+  <group id="tunnel-3">
+    <group>  <!-- The tunnel -->
+      <extrude angle="20" axis-x="0" axis-y="0" axis-z="-8" stacks="4"/>
+      <color red="0.9" green="0.7" blue="0.5" alpha="0.999"/>
+      <circle radius="T3-sphere-radius" vertex-count="6"/>
+    </group>
+    <group>  <!-- Crazy cubes -->
+      <rotate angle="30" axis-x="0" axis-y="0" axis-z="1"/>
+      <translate x="0" y="0" z="16"/>
+      <color red="1" green="0.8" blue="0.7" alpha="0.999"/>
+      <circle radius="T3-sphere-radius" vertex-count="6"/>
+      <insert-group reference="crazy-cubes"/>
+    </group>
+    <group>  <!-- Crazy pipe -->
+      <rotate angle="50" axis-x="0" axis-y="0" axis-z="1"/>
+      <translate x="0" y="0" z="-16"/>
+      <color red="1" green="0.8" blue="0.7" alpha="0.999"/>
+      <circle radius="T3-sphere-radius" vertex-count="6"/>
+      <insert-group reference="crazy-pipe"/>
+    </group>
+    <group>  <!-- Crazy pipe -->
+      <rotate angle="50" axis-x="0" axis-y="0" axis-z="1"/>
+      <translate x="0" y="0" z="-16"/>
+      <insert-group reference="crazy-pipe-2"/>
+    </group>
+    <group>  <!-- Crazy pipe -->
+      <rotate angle="50" axis-x="0" axis-y="0" axis-z="1"/>
+      <translate x="0" y="0" z="-16"/>
+      <insert-group reference="crazy-pipe-3"/>
+    </group>
+    <group>  <!-- Gate 1 -->
+      <rotate angle="270" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="0" y="-8" z="10"/>
+      <rotate angle="220" axis-x="0" axis-y="0" axis-z="1"/>
+      <insert-group reference="gate"/>
+    </group>
+    <group>  <!-- Gate 2 -->
+      <rotate angle="90" axis-x="0" axis-y="1" axis-z="0"/>
+      <translate x="8" y="0" z="-10"/>
+      <insert-group reference="gate"/>
+    </group>
+
+    <insert-group reference="lasers"/>
+  </group>
+
+
+
+  <!-- ** World ** -->
+  <group id="world">
+    <point id="origin"/>
+
+    <!-- We have to rotate the whole world because of the cam up-vector -->
+    <rotate angle="90" axis-x="1" axis-y="0" axis-z="0"/>
+
+    <insert-group reference="tunnel-3"/>
+
+    <group>  <!-- Crazy cubes -->
+      <rotate angle="30" axis-x="0" axis-y="0" axis-z="1"/>
+      <translate x="0" y="0" z="16"/>
+      <color red="1" green="0.8" blue="0.7" alpha="0.999"/>
+      <circle radius="T3-sphere-radius" vertex-count="6"/>
+      <insert-group reference="crazy-cubes"/>
+    </group>
+
+
+    <param name="lookat-climb-start" value="24"/>
+    <param name="camera-climb-start" value="10"/>
+    <param name="camera-climb-start-">
+      <value><sub left="0" right="camera-climb-start"/></value>
+    </param>
+    <param name="speed-camera-climb"><value>
+      <mult left="time"><right>
+        <div right="14000">
+          <left><mult left="2" right="camera-climb-start"/></left>
+        </div>
+      </right></mult>
+    </value></param>
+    <param name="speed-lookat-climb"><value>
+      <mult left="time"><right>
+        <div right="14000">
+          <left><mult left="2" right="lookat-climb-start"/></left>
+        </div>
+      </right></mult>
+    </value></param>
+
+    <param name="excenter"><value>
+      <min>
+        <left><sub left="8" right="t1000"/></left> <!-- Normal spiral -->
+        <right>                                    <!-- Move through gate -->
+          <sub left="216">
+            <right><div left="time" right="62.5"/></right>
+          </sub>
+        </right>
+      </min>
+    </value></param>
+    <param name="excenter-lookat"><value>
+      <min>
+        <left><sub left="t1000" right="8"/></left> <!-- Normal spiral -->
+        <right>                                    <!-- Move through gate -->
+          <sub left="200">
+            <right><div left="time" right="62.5"/></right>
+          </sub>
+        </right>
+      </min>
+    </value></param>
+
+    <param name="climb"><value>
+      <max left="camera-climb-start-"><right>
+        <sub left="speed-camera-climb" right="camera-climb-start"/>
+      </right></max>
+    </value></param>
+    <param name="climb2"><value>
+      <max left="camera-climb-start-"><right>
+      <min left="camera-climb-start" ><right>
+        <sub left="speed-lookat-climb" right="lookat-climb-start"/>
+      </right></min>
+      </right></max>
+    </value></param>
+
+    <group>
+      <translate x="excenter" y="0" z="climb"/>
+      <rotate angle="t10" axis-x="0" axis-y="0" axis-z="1"/>
+      <point id="cam1"/>
+    </group>
+    <group>
+      <translate x="excenter-lookat" y="0" z="climb2"/>
+      <rotate angle="t10" axis-x="0" axis-y="0" axis-z="1"/>
+      <point id="cam1-lookat"/>
+    </group>
+
+    <point id="light1"/>
+  </group>
+
+
+  <camera-list>
+    <fixed-camera key="1" position="cam1" lookat="cam1-lookat" opening="1.4"/>
+  </camera-list>
+
+  <light-list>
+    <ambient intensity="0.5"/>
+    <lamp position="light1" intensity="100"/>
+
+    <!-- ** the gate spot ** -->
+    <spot position="gate-spot" lookat="gate-pos" cutoff="40" exponent="16" intensity="4"/>
+
+<!-- We don't really see it anyway :-/
+    <spot position="laser1-position"  lookat="laser1-lookat" cutoff="3" exponent="110" red-intensity="100" green-intensity="20" blue-intensity="20"/>
+    <spot position="laser2-position"  lookat="laser2-lookat" cutoff="3" exponent="110" red-intensity="100" green-intensity="20" blue-intensity="20"/>
+    <spot position="laser3-position"  lookat="laser3-lookat" cutoff="3" exponent="110" red-intensity="100" green-intensity="20" blue-intensity="20"/>
+-->
+  </light-list>
+
+  <music filename="../resources/14 - Comic Bakery.ogg"/>
+
+</scene>

@@ -1,0 +1,428 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene duration="14500">
+  <!-- TODO:
+        * Check which time vars will have to be adjusted for integration
+  -->
+
+  <!-- $Id: tunnel-1.xml 314 2005-04-29 02:51:27Z sandro $ -->
+
+  <param name="pi" value="3.141592653589793238462643383"/>
+
+  <param name="t300"><value>
+    <div left="time" right="300"/>
+  </value></param>
+
+  <param name="t200"><value>
+    <div left="time" right="100"/>
+  </value></param>
+
+  <param name="t100"><value>
+    <div left="time" right="100"/>
+  </value></param>
+  <param name="t100-"><value>
+    <sub left="0" right="time"/>
+  </value></param>
+
+  <param name="t50"><value>
+    <div left="time" right="50"/>
+  </value></param>
+
+  <param name="t10"><value>
+    <div left="time" right="10"/>
+  </value></param>
+
+  <param name="t5"><value>
+    <div left="time" right="5"/>
+  </value></param>
+  <param name="t5-"><value>
+    <sub left="0" right="t5"/>
+  </value></param>
+
+  <param name="pseudo-rand-1"><value>
+    <mult left="30">
+      <right>
+        <add>
+          <right><cos><operand><div left="t10" right="40"/></operand></cos></right>
+          <left> <sin><operand><div left="t10" right="20"/></operand></sin></left>
+        </add>
+      </right>
+    </mult>
+  </value></param>
+
+  <param name="pseudo-rand-2">
+    <value>
+      <div right="3"><left>
+      <add right="2"><left><add>
+        <right>
+          <cos><operand><div left="t10" right="30" /></operand></cos>
+        </right>
+        <left>
+          <sin><operand><div left="t10" right="70" /></operand></sin>
+        </left>
+      </add></left></add>
+      </left></div>
+    </value>
+  </param>
+
+  <param name="pseudo-rand-3">
+    <value>
+      <div right="3"><left>
+      <add right="2"><left><add>
+        <right>
+          <cos><operand><div left="t10" right="40" /></operand></cos>
+        </right>
+        <left>
+          <sin><operand><div left="t10" right="20" /></operand></sin>
+        </left>
+      </add></left></add>
+      </left></div>
+    </value>
+  </param>
+
+
+
+  <!--  ** Gate **  -->
+  <param name="smooth-wave"><value>
+    <div right="10"><left>
+      <add right="2"><left>
+        <sin><operand>
+          <div left="time" right="2000"/>
+        </operand></sin>
+      </left></add>
+    </left></div>
+  </value></param>
+
+  <param name="smooth-wave-inv"><value>
+    <div left="1" right="smooth-wave"/>
+  </value></param>
+
+  <group id="gate">
+    <group>
+      <translate x="0" y="0" z="1.2" />
+      <point id="gate-spot" />
+    </group>
+    <group>  <!-- Gate layer 1 -->
+      <translate x="0" y="0" z="-0.01"/>
+      <rotate angle="t50" axis-x="0" axis-y="0" axis-z="1"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="1" vertex-count="20"/>
+      <point id="gate-pos" />
+    </group>
+    <group>  <!-- Gate layer 2 -->
+      <translate x="0" y="0" z="0.01"/>
+      <rotate angle="t100" axis-x="0" axis-y="0" axis-z="-1"/>
+      <scale x="smooth-wave-inv" y="smooth-wave-inv" z="0"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="smooth-wave" vertex-count="20"/>
+    </group>
+    <group>  <!-- Gate border -->
+      <rotate angle="90" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="1.1" y="0" z="0"/>
+      <extrude angle="20" axis-x="0" axis-y="0" axis-z="0" stacks="18"/>
+      <color red="0.3" green="0.3" blue="0.3" alpha="1"/>
+      <circle radius="0.1" vertex-count="6"/>
+    </group>
+  </group>
+
+
+
+
+
+
+  <!-- ** Stage ** -->
+  <group id="T1-platform">
+    <translate x="0" y="0" z="0.5"/>
+    <group>
+      <extrude angle="0" axis-x="0" axis-y="0" axis-z="0.5" stacks="1"/>
+      <color red="0.8" green="0.9" blue="0.8" alpha="1"/>
+      <circle radius="2.5" vertex-count="16"/>
+    </group>
+    <group>
+      <translate x="0" y="0" z="0.25"/>
+      <color red="0.2" green="0.2" blue="0.2" alpha="1"/>
+      <circle radius="2.5" vertex-count="16"/>
+    </group>
+  </group>
+
+  <param name="T1-spot-reach" value="24"/>
+  <param name="T1-spot-distance" value="7"/>
+  <group id="T1-spot">
+    <group>
+      <color red="1" green="1" blue="1" alpha="0.5"/>
+      <cylinder bottom="0.1" top="5" height="T1-spot-reach" stacks="1" slices="12"/>
+    </group>
+    <group>
+      <color red="0.2" green="0.2" blue="0.2" alpha="1"/>
+      <cube size="0.5"/>
+    </group>
+  </group>
+
+  <group id="T1-stage">
+    <insert-group reference="T1-platform"/>
+    <group>
+      <rotate angle="180" axis-x="0" axis-y="1" axis-z="0"/>
+      <translate x="0" y="0" z="T1-spot-distance"/>
+      <insert-group reference="T1-spot"/>
+    </group>
+  </group>
+
+
+  <!-- ** Metaballs ** -->
+  <param name="T1-metaball-shear"><value>
+    <sin operand="t200"/>
+  </value></param>
+  <param name="T1-metaball-shear-"><value>
+    <sub left="0" right="T1-metaball-shear"/>
+  </value></param>
+
+  <group id="T1-metaball">
+    <shear x-ycoeff="T1-metaball-shear" x-zcoeff="0" y-xcoeff="T1-metaball-shear-"
+           y-zcoeff="0" z-xcoeff="0" z-ycoeff="T1-metaball-shear"/>
+    <rotate angle="t10" axis-x="1" axis-y="0" axis-z="1"/>
+    <sphere radius="0.5" slices="16" stacks="8"/>
+  </group>
+
+  <group id="T1-metaball-trio">
+    <rotate angle="t10" axis-x="1" axis-y="0" axis-z="1"/>
+    <translate x="0" y="0" z="3"/>
+    <group>
+      <translate x="1" y="0" z="0"/>
+      <rotate angle="t5" axis-x="0" axis-y="0" axis-z="1"/>
+      <color red="1" green="0.3" blue="0.3" alpha="1.0"/>
+      <insert-group reference="T1-metaball"/>
+    </group>
+    <group>
+      <translate x="0" y="1" z="0"/>
+      <rotate angle="t5-" axis-x="1" axis-y="0" axis-z="0"/>
+      <color red="0.3" green="1" blue="0.3" alpha="1.0"/>
+      <insert-group reference="T1-metaball"/>
+    </group>
+    <group>
+      <translate x="0" y="0" z="1"/>
+      <rotate angle="t5" axis-x="0" axis-y="1" axis-z="0"/>
+      <color red="0.3" green="0.3" blue="1" alpha="1.0"/>
+      <insert-group reference="T1-metaball"/>
+    </group>
+  </group>
+
+  <group id="T1-metaball-stage">
+    <insert-group reference="T1-metaball-trio"/>
+    <insert-group reference="T1-stage"/>
+    <point id="T1-spot-metaball-lookat"/>
+    <group>
+      <translate x="0" y="0" z="T1-spot-reach"/>
+      <point id="T1-spot-metaball"/>
+    </group>
+  </group>
+
+
+
+  <!-- ** Supercube ** -->
+  <group id="supercube">
+    <translate x="0" y="0" z="2"/>
+    <color red="1" green="1" blue="1" alpha="pseudo-rand-2"/>
+    <group>
+      <scale y="1" z="1">
+        <x><div left="pseudo-rand-1" right="20"/></x>
+      </scale>
+      <translate x="pseudo-rand-3" y="0.499" z="0.499"/>
+      <cube size="1"/>
+    </group>
+    <group>
+      <scale x="pseudo-rand-3" y="1" z="1"/>
+      <translate x="pseudo-rand-2" y="-0.499" z="-0.499"/>
+      <cube size="1"/>
+    </group>
+    <group>
+      <scale x="1" y="1">
+        <z><mult left="pseudo-rand-2" right="2"/></z>
+      </scale>
+      <translate x="0.499" y="0.499">
+        <z><div left="pseudo-rand-1" right="53"/></z>
+      </translate>
+      <cube size="1"/>
+    </group>
+    <group>
+      <scale x="1" y="1">
+        <z><add left="pseudo-rand-2" right="pseudo-rand-3"/></z>
+      </scale>
+      <translate x="-0.499" y="-0.499">
+        <z><mult left="pseudo-rand-2" right="pseudo-rand-3"/></z>
+      </translate>
+      <cube size="1"/>
+    </group>
+    <group>
+      <scale x="1" z="1">
+        <y><mult left="pseudo-rand-3" right="2"/></y>
+      </scale>
+      <translate x="-0.499" z="0.499">
+        <y><mult left="pseudo-rand-2" right="1.2"/></y>
+      </translate>
+      <cube size="1"/>
+    </group>
+    <group>
+      <scale x="1" z="1">
+        <y><mult left="pseudo-rand-2" right="2"/></y>
+      </scale>
+      <translate x="0.499" z="-0.499">
+        <y><mult left="pseudo-rand-3">
+             <right><div left="pseudo-rand-1" right="45"/></right>
+        </mult></y>
+      </translate>
+      <cube size="1"/>
+    </group>
+    <cube size="2"/>
+  </group>
+
+  <group id="supercube-stage">
+    <insert-group reference="supercube"/>
+    <insert-group reference="T1-stage"/>
+    <point id="T1-spot-supercube-lookat"/>
+    <group>
+      <translate x="0" y="0" z="T1-spot-reach"/>
+      <point id="T1-spot-supercube"/>
+    </group>
+  </group>
+
+
+
+  <!-- ** Tunnel 1 ** -->
+  <param name="T1-cam-speed" value="4000"/>
+  <param name="T1-cam-speed-y" value="4000"/>
+  <param name="T1-cam-speed-z" value="750"/>
+  <param name="T1-tunnel-size" value="10"/>
+  <param name="T1-tunnel-size-">
+    <value><sub left="0" right="T1-tunnel-size"/></value>
+  </param>
+  <group id="tunnel-1">
+    <point id="T1-origin"/>
+
+    <group> <!-- Metaball stage -->
+      <rotate angle="90" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="-2" y="T1-tunnel-size" z="-2"/>
+      <insert-group reference="T1-metaball-stage"/>
+    </group>
+
+    <group> <!-- Supercube stage -->
+      <rotate angle="270" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="4" y="T1-tunnel-size-" z="7"/>
+      <insert-group reference="supercube-stage"/>
+    </group>
+
+    <group> <!-- The cubic tunnel itself -->
+      <rotate angle="45" axis-x="0" axis-y="0" axis-z="1"/>
+      <rotate angle="270" axis-x="0" axis-y="1" axis-z="0"/>
+      <translate x="T1-tunnel-size" y="0" z="0"/>
+      <spin-array angle="90" axis-x="0" axis-y="0" axis-z="0" instances="4"/>
+      <color red="0.8" green="0.9" blue="0.8" alpha="0.999"/>
+      <circle vertex-count="4">
+        <radius><div left="T1-tunnel-size" right="0.7071067"/></radius>
+      </circle>
+    </group>
+
+    <group>  <!-- Origin gate -->
+      <translate x="-8" y="8" z="T1-tunnel-size-"/>
+      <insert-group reference="gate"/>
+    </group>
+    <group>  <!-- Destination gate -->
+      <translate x="7" y="-7" z="T1-tunnel-size"/>
+      <insert-group reference="gate"/>
+    </group>
+
+
+    <group> <!-- Camera position -->
+      <translate>
+        <x><mult left="-8"><right><cos><operand><div left="time" right="T1-cam-speed"/></operand></cos></right></mult></x>
+        <y><mult left="8"><right><cos><operand><div left="time" right="T1-cam-speed"/></operand></cos></right></mult></y>
+        <z><add  left="T1-tunnel-size-"><right><div left="time" right="T1-cam-speed-z"/></right></add></z>
+      </translate>
+      <point id="T1-camera-position"/>
+    </group>
+    <group> <!-- Camera lookat (complex movement!)  -->
+      <translate>
+        <x><mult left="-6"><right><cos><operand><div left="time" right="T1-cam-speed"/></operand></cos></right></mult></x>
+        <y>
+          <max left="-8"><right>
+          <min left="8"><right>
+            <mult left="16"><right><cos><operand><div left="time" right="T1-cam-speed-y"/></operand></cos></right></mult>
+          </right></min>
+          </right></max>
+        </y>
+        <z>
+          <add>
+            <left> <!-- Main movement -->
+              <max left="-4"><right>
+              <min left="6"><right>
+                <sub left="t300" right="14"/>
+              </right></min>
+              </right></max>
+            </left>
+            <right> <!-- Move through the gate -->
+              <max left="0"><right>
+                <sub left="t300" right="40"/>
+              </right></max>
+            </right>
+          </add>
+        </z>
+      </translate>
+      <point id="T1-camera-lookat"/>
+    </group>
+
+    <group> <!-- Light at start corner -->
+      <translate x="9" y="-9" z="-9"/>
+      <point id="T1-light-start-corner"/>
+    </group>
+    <group> <!-- Light at end corner -->
+      <translate x="-9" y="9" z="9"/>
+      <point id="T1-light-end-corner"/>
+    </group>
+  </group>
+
+
+  <!-- ** World ** -->
+  <group id="world">
+
+    <insert-group reference="tunnel-1"/>
+
+
+    <group>
+      <translate x="-3" y="-3" z="3"/>
+      <point id="FAKE-cam3"/>
+    </group>
+
+  </group>
+
+
+  <camera-list>
+    <fixed-camera key="1" position="T1-camera-position" lookat="T1-camera-lookat" opening="1"/>
+  </camera-list>
+
+  <param name="T1-light-on-off"><value>
+    <square_wave><operand><div left="t100" right="pseudo-rand-1"/></operand></square_wave>
+  </value></param>
+  <param name="T1-light-red"><value>
+    <mult left="150" right="T1-light-on-off"/>
+  </value></param>
+  <param name="T1-light-green"><value>
+    <mult left="50" right="T1-light-on-off"/>
+  </value></param>
+  <param name="T1-light-blue"><value>
+    <mult left="50" right="T1-light-on-off"/>
+  </value></param>
+
+  <light-list>
+    <ambient intensity="0.5"/>
+
+    <!-- ** the gate spot ** -->
+    <spot position="gate-spot" lookat="gate-pos" cutoff="40" exponent="16" intensity="4"/>
+
+    <lamp position="T1-light-start-corner" red-intensity="T1-light-red" green-intensity="T1-light-green" blue-intensity="T1-light-blue"/>
+    <lamp position="T1-light-end-corner" red-intensity="T1-light-red" green-intensity="T1-light-green" blue-intensity="T1-light-blue"/>
+    <spot position="T1-spot-metaball"  lookat="T1-spot-metaball-lookat"  cutoff="3" exponent="120" intensity="100.0"/>
+    <spot position="T1-spot-supercube" lookat="T1-spot-supercube-lookat" cutoff="20" exponent="80" intensity="100.0"/>
+  </light-list>
+
+  <music filename="../resources/14 - Comic Bakery.ogg"/>
+
+</scene>

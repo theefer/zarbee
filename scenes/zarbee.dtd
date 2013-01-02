@@ -1,0 +1,314 @@
+<!-- This document defines the DTD for ZarBee XML scene files
+     used to describe a 3D scene to be rendered by the ZarBee engine.
+
+     This file is distributed under the GNU General Public License,
+     version 2 ot later.
+
+     Author: Sébastien Cevey <seb@cine7.net>
+-->
+
+<!-- SCENE -->
+
+<!ELEMENT scene (param*, group+, camera-list, light-list, camera-schedule?, music?)>
+
+
+<!-- PARAM -->
+
+<!ELEMENT param (value?)>
+<!ATTLIST param
+          name    CDATA #REQUIRED
+          value   CDATA #OPTIONAL
+>
+
+<!ELEMENT value   (sin?, cos?, asin?, acos?, add?, mult?, sub?, div?)>
+<!ELEMENT right   (sin?, cos?, asin?, acos?, add?, mult?, sub?, div?)>
+<!ELEMENT left    (sin?, cos?, asin?, acos?, add?, mult?, sub?, div?)>
+<!ELEMENT operand (sin?, cos?, asin?, acos?, add?, mult?, sub?, div?)>
+
+
+<!-- UNARY FUNCTION -->
+
+<!ELEMENT sin     (operand?)>
+<!ELEMENT cos     (operand?)>
+<!ELEMENT asin    (operand?)>
+<!ELEMENT acos    (operand?)>
+
+<!ATTLIST sin
+          operand    CDATA #OPTIONAL
+>
+<!ATTLIST cos
+          operand    CDATA #OPTIONAL
+>
+<!ATTLIST asin
+          operand    CDATA #OPTIONAL
+>
+<!ATTLIST acos
+          operand    CDATA #OPTIONAL
+>
+
+<!-- BINARY FUNCTION -->
+
+<!ELEMENT add     (left?, right?)>
+<!ELEMENT mult    (left?, right?)>
+<!ELEMENT sub     (left?, right?)>
+<!ELEMENT div     (left?, right?)>
+
+<!ATTLIST add
+          left    CDATA #OPTIONAL
+          right   CDATA #OPTIONAL
+>
+<!ATTLIST mult
+          left    CDATA #OPTIONAL
+          right   CDATA #OPTIONAL
+>
+<!ATTLIST sub
+          left    CDATA #OPTIONAL
+          right   CDATA #OPTIONAL
+>
+<!ATTLIST div
+          left    CDATA #OPTIONAL
+          right   CDATA #OPTIONAL
+>
+
+
+<!-- GROUP -->
+
+<!ELEMENT group (group*,insert-group*,
+                 point*, sphere*, cube*, cylinder*, polygon*, circle*, terrain*,
+                 rotate*, translate*, scale*, spin-array*, shear*,
+                 color?,linear-texture?,spherical-texture?)>
+<!ATTLIST group
+          id      CDATA #OPTIONAL
+>
+
+<!ATTLIST insert-group
+          reference CDATA #REQUIRED
+>
+
+
+<!-- PRIMITIVE -->
+
+<!ELEMENT point EMPTY>
+<!ATTLIST point
+          id      CDATA #REQUIRED
+>
+
+<!ELEMENT sphere EMPTY>
+<!ATTLIST sphere
+          slices  CDATA #REQUIRED
+          stacks  CDATA #REQUIRED
+          radius  CDATA #REQUIRED
+>
+
+<!ELEMENT cube EMPTY>
+<!ATTLIST cube
+          size  CDATA #REQUIRED
+>
+
+<!ELEMENT cylinder EMPTY>
+<!ATTLIST cylinder
+          bottom  CDATA #REQUIRED
+          top     CDATA #REQUIRED
+          height  CDATA #REQUIRED
+          slices  CDATA #REQUIRED
+          stacks  CDATA #REQUIRED
+>
+
+<!ELEMENT polygon (vertex+)>
+
+<!ELEMENT vertex EMPTY>
+<!ATTLIST vertex
+          x     CDATA #REQUIRED
+          y     CDATA #REQUIRED
+          z     CDATA #REQUIRED
+>
+
+<!ELEMENT circle EMPTY>
+<!ATTLIST circle
+          radius        CDATA #REQUIRED
+          vertex-count  CDATA #REQUIRED
+>
+
+<!ELEMENT terrain EMPTY>
+<!ATTLIST terrain
+          width         CDATA #REQUIRED
+          height        CDATA #REQUIRED
+          subdivisions  CDATA #REQUIRED
+          seed          CDATA #REQUIRED
+>
+
+
+<!-- MODIFIER -->
+
+<!ELEMENT rotate EMPTY>
+<!ATTLIST rotate
+          angle        CDATA #REQUIRED
+          axis-x       CDATA #REQUIRED
+          axis-y       CDATA #REQUIRED
+          axis-z       CDATA #REQUIRED
+>
+
+<!ELEMENT translate EMPTY>
+<!ATTLIST translate
+          x     CDATA #REQUIRED
+          y     CDATA #REQUIRED
+          z     CDATA #REQUIRED
+>
+
+<!ELEMENT scale EMPTY>
+<!ATTLIST scale
+          x     CDATA #REQUIRED
+          y     CDATA #REQUIRED
+          z     CDATA #REQUIRED
+>
+
+<!ELEMENT spin-array EMPTY>
+<!ATTLIST spin-array
+          angle        CDATA #REQUIRED
+          axis-x       CDATA #REQUIRED
+          axis-y       CDATA #REQUIRED
+          axis-z       CDATA #REQUIRED
+          instances    CDATA #REQUIRED
+>
+
+<!ELEMENT shear EMPTY>
+<!ATTLIST shear
+          x-ycoeff     CDATA #OPTIONAL
+          x-zcoeff     CDATA #OPTIONAL
+          y-xcoeff     CDATA #OPTIONAL
+          y-zcoeff     CDATA #OPTIONAL
+          z-xcoeff     CDATA #OPTIONAL
+          z-ycoeff     CDATA #OPTIONAL
+>
+
+<!ELEMENT extrude EMPTY>
+<!ATTLIST extrude
+          angle        CDATA #REQUIRED
+          axis-x       CDATA #REQUIRED
+          axis-y       CDATA #REQUIRED
+          axis-z       CDATA #REQUIRED
+          stacks       CDATA #REQUIRED
+>
+
+
+<!-- TEXTURE -->
+
+<!ELEMENT color EMPTY>
+<!ATTLIST color
+          red          CDATA #REQUIRED
+          green        CDATA #REQUIRED
+          blue         CDATA #REQUIRED
+          alpha        CDATA #REQUIRED
+>
+
+<!ELEMENT linear-texture EMPTY>
+<!ATTLIST linear-texture
+          filename     CDATA #REQUIRED
+>
+
+<!ELEMENT spherical-texture EMPTY>
+<!ATTLIST spherical-texture
+          filename     CDATA #REQUIRED
+>
+
+
+<!-- CAMERA -->
+
+<!ELEMENT camera-list (fixed-camera*, free-camera*)>
+
+<!ELEMENT fixed-camera EMPTY>
+<!ATTLIST fixed-camera
+          key           CDATA #REQUIRED
+          position      CDATA #REQUIRED
+          lookat        CDATA #REQUIRED
+          opening       CDATA #REQUIRED
+>
+
+<!ELEMENT free-camera EMPTY>
+<!ATTLIST free-camera
+          key           CDATA #REQUIRED
+          position      CDATA #REQUIRED
+          lookat        CDATA #REQUIRED
+          opening       CDATA #REQUIRED
+>
+
+<!ELEMENT pan-camera EMPTY>
+<!ATTLIST pan-camera
+          key           CDATA #REQUIRED
+          position      CDATA #REQUIRED
+          lookat        CDATA #REQUIRED
+          opening       CDATA #REQUIRED
+>
+
+<!ELEMENT free-pan-camera EMPTY>
+<!ATTLIST free-pan-camera
+          key           CDATA #REQUIRED
+          position      CDATA #REQUIRED
+          lookat        CDATA #REQUIRED
+          opening       CDATA #REQUIRED
+>
+
+<!-- LIGHT -->
+
+<!ELEMENT light-list (ambient*, light*, sun*)>
+
+<!ELEMENT ambient EMPTY>
+<!ATTLIST ambient
+          intensity       CDATA #OPTIONAL
+          red-intensity   CDATA #OPTIONAL
+          green-intensity CDATA #OPTIONAL
+          blue-intensity  CDATA #OPTIONAL
+>
+
+<!ELEMENT light EMPTY>
+<!ATTLIST light
+          position        CDATA #REQUIRED
+          intensity       CDATA #OPTIONAL
+          red-intensity   CDATA #OPTIONAL
+          green-intensity CDATA #OPTIONAL
+          blue-intensity  CDATA #OPTIONAL
+>
+
+<!ELEMENT spot EMPTY>
+<!ATTLIST spot
+          position        CDATA #REQUIRED
+          lookat          CDATA #REQUIRED
+          cutoff          CDATA #REQUIRED
+          exponent        CDATA #REQUIRED
+          intensity       CDATA #OPTIONAL
+          red-intensity   CDATA #OPTIONAL
+          green-intensity CDATA #OPTIONAL
+          blue-intensity  CDATA #OPTIONAL
+>
+
+<!ELEMENT sun EMPTY>
+<!ATTLIST sun
+          position        CDATA #REQUIRED
+          direction       CDATA #REQUIRED
+          intensity       CDATA #OPTIONAL
+          red-intensity   CDATA #OPTIONAL
+          green-intensity CDATA #OPTIONAL
+          blue-intensity  CDATA #OPTIONAL
+>
+
+
+<!-- CAMERA SCHEDULE -->
+
+
+<!ELEMENT camera-schedule (checkpoint*)>
+
+<!ELEMENT checkpoint EMPTY>
+<!ATTLIST checkpoint
+          time            CDATA #REQUIRED
+          camera          CDATA #REQUIRED
+>
+
+
+<!-- MUSIC -->
+
+<!ELEMENT music EMPTY>
+<!ATTLIST music
+          filename        CDATA #REQUIRED
+          loop            CDATA #OPTIONAL
+>
+

@@ -1,0 +1,357 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene duration="15000">
+
+  <!-- $Id: tunnel-2.xml 288 2005-04-28 20:17:01Z seb $ -->
+
+  <param name="beat"><value>
+    <div left="time" right="450"/>
+  </value></param>
+
+  <param name="2beat"><value>
+    <div left="beat" right="2"/>
+  </value></param>
+
+  <param name="t1000"><value>
+    <div left="time" right="1000"/>
+  </value></param>
+
+  <param name="t200"><value>
+    <div left="time" right="200"/>
+  </value></param>
+
+  <param name="t500"><value>
+    <div left="time" right="500"/>
+  </value></param>
+
+  <param name="t100"><value>
+    <div left="time" right="100"/>
+  </value></param>
+
+  <param name="t50"><value>
+    <div left="time" right="50"/>
+  </value></param>
+
+  <param name="t10"><value>
+    <div left="time" right="10"/>
+  </value></param>
+
+
+  <param name="pseudo-rand-2">
+    <value>
+      <sub right="0.125"><left>
+      <div right="8"><left>
+      <add right="2"><left><add>
+        <right>
+          <cos><operand><div left="t10" right="30" /></operand></cos>
+        </right>
+        <left>
+          <sin><operand><div left="t10" right="70" /></operand></sin>
+        </left>
+      </add></left></add>
+      </left></div>
+      </left></sub>
+    </value>
+  </param>
+
+
+
+  <!--  ** Gate **  -->
+  <param name="smooth-wave"><value>
+    <div right="10"><left>
+      <add right="2"><left>
+        <sin><operand>
+          <div left="time" right="2000"/>
+        </operand></sin>
+      </left></add>
+    </left></div>
+  </value></param>
+
+  <param name="smooth-wave-inv"><value>
+    <div left="1" right="smooth-wave"/>
+  </value></param>
+
+  <group id="gate">
+    <group>
+      <translate x="0" y="0" z="1.2" />
+      <point id="gate-spot" />
+    </group>
+    <group>  <!-- Gate layer 1 -->
+      <translate x="0" y="0" z="-0.01"/>
+      <rotate angle="t50" axis-x="0" axis-y="0" axis-z="1"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="1" vertex-count="20"/>
+      <point id="gate-pos" />
+    </group>
+    <group>  <!-- Gate layer 2 -->
+      <translate x="0" y="0" z="0.01"/>
+      <rotate angle="t100" axis-x="0" axis-y="0" axis-z="-1"/>
+      <scale x="smooth-wave-inv" y="smooth-wave-inv" z="0"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="smooth-wave" vertex-count="20"/>
+    </group>
+    <group>  <!-- Gate border -->
+      <rotate angle="90" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="1.1" y="0" z="0"/>
+      <extrude angle="20" axis-x="0" axis-y="0" axis-z="0" stacks="18"/>
+      <color red="0.3" green="0.3" blue="0.3" alpha="1"/>
+      <circle radius="0.1" vertex-count="6"/>
+    </group>
+  </group>
+
+
+
+  <!-- ** Cube Valse ** -->
+  <param name="slide2beat"><value>
+    <min left="1"><right>
+      <max left="-1"><right>
+        <mult left="2">
+          <right>
+            <sin><operand><div left="time" right="310.9"/></operand></sin>
+          </right>
+        </mult>
+      </right></max>
+    </right></min>
+  </value></param>
+
+  <param name="slide2beat-"><value>
+    <mult left="slide2beat" right="-1"/>
+  </value></param>
+
+  <group id="cube-valse">
+    <group>
+      <spin-array angle="0.0" axis-x="0" axis-y="0" axis-z="2" instances="30"/>
+      <translate x="slide2beat-" y="0" z="0"/>
+      <color red="1" green="0.7" blue="0.6" alpha="0.7"/>
+      <cube size="0.5"/>
+    </group>
+    <group>
+      <translate x="0" y="0" z="1"/>  <!-- shift from the other row -->
+      <spin-array angle="0.0" axis-x="0" axis-y="0" axis-z="2" instances="30"/>
+      <translate x="slide2beat" y="0" z="0"/>
+      <color red="1" green="0.7" blue="0.6" alpha="0.7"/>
+      <cube size="0.5"/>
+    </group>
+  </group>
+
+
+  <!-- ** Cube Spiral ** -->
+  <group id="cube-spiral">
+    <translate x="0" y="3.5" z="0"/>
+    <spin-array angle="15.0" axis-x="0" axis-y="0" axis-z="1">
+      <instances><min left="60" right="beat"/></instances>
+    </spin-array>
+    <scale x="1" y="1" z="0.5"/>
+    <color red="0.7" green="0.7" blue="1" alpha="1"/>
+    <cube size="0.5"/>
+  </group>
+
+
+
+  <!-- ** Secondary Camera ** -->
+  <group id="T2-second-cam">
+    <param name="T2-cam2-speed"><value>
+      <div left="t100" right="3"/>
+    </value></param>
+    <group>
+      <translate y="0">
+        <x>
+          <mult left="3">
+            <right><sin operand="t1000"/></right>
+          </mult>
+        </x>
+        <z><add left="T2-cam2-speed" right="-50"/></z>
+      </translate>
+      <point id="T2-cam2"/>
+    </group>
+    <group>
+      <translate y="0">
+        <x>
+          <mult left="2">
+            <right><cos operand="t1000"/></right>
+          </mult>
+        </x>
+        <z><add left="T2-cam2-speed" right="-34"/></z>
+      </translate>
+      <point id="T2-cam2-lookat"/>
+    </group>
+  </group>
+
+
+  <!-- ** TUNNEL 2 ** -->
+  <group id="tunnel-2">
+    <!-- Params -->
+    <param name="T2-time-shift" value="0"/>
+    <param name="T2-tunnel-length" value="26"/>
+
+
+    <param name="shear1"><value>
+      <div right="2"><left><add left="2"><right><sin operand="t200"/></right></add></left></div>
+    </value></param>
+    <param name="shear2"><value>
+      <div right="2"><left><add left="2"><right><sin operand="t1000"/></right></add></left></div>
+    </value></param>
+    <rotate angle="t50" axis-x="0" axis-y="0" axis-z="1"/>
+    <shear x-ycoeff="pseudo-rand-2"/>
+
+    <!-- Scene -->
+    <group>
+      <translate x="0" y="1" z="0"/>
+      <insert-group reference="cube-valse"/>
+    </group>
+    <group>
+      <scale x="-1" y="1" z="1"/>
+      <translate x="0" y="-1" z="0"/>
+      <insert-group reference="cube-valse"/>
+    </group>
+    <group>
+      <insert-group reference="cube-spiral"/>
+    </group>
+    <group>
+      <rotate angle="180" axis-x="0" axis-y="0" axis-z="1"/>
+      <insert-group reference="cube-spiral"/>
+    </group>
+    <group>
+      <scale x="4" y="4" z="4"/>
+      <insert-group reference="gate"/>
+    </group>
+    <group>
+      <scale x="4" y="4" z="4"/>
+      <translate x="0" y="0" z="T2-tunnel-length"/>
+      <insert-group reference="gate"/>
+      <point id="end"/>
+    </group>
+    <group id="cylinder">
+      <param name="2T2-tunnel-length"><value>
+        <div left="T2-tunnel-length" right="2"/>
+      </value></param>
+      <extrude axis-x="0" axis-y="0" axis-z="-2" angle="0" stacks="2T2-tunnel-length"/>
+      <translate x="0" y="0" z="2T2-tunnel-length"/>
+      <color red="0.5" green="0.5" blue="0.5" alpha="1"/>
+      <circle radius="4" vertex-count="16" />
+    </group>
+
+    <!-- Cameras -->
+
+    <!-- ** Static Camera ** -->
+    <group>
+      <translate x="2" y="-2" z="8"/>
+      <point id="T2-cam-static"/>
+    </group>
+
+    <!-- ** Static Camera ** -->
+    <group>
+      <translate x="3" y="0">
+        <z><add left="-9" right="t500"/></z>
+      </translate>
+      <rotate angle="t10" axis-x="0" axis-y="0" axis-z="1"/>
+      <point id="T2-cam-spiral"/>
+    </group>
+
+    <!-- Lights -->
+    <group>
+      <translate x="3" y="0" z="3"/>
+      <point id="T2-light1"/>
+    </group>
+    <group>
+      <translate x="-2" y="-1" z="7"/>
+      <point id="T2-light2"/>
+    </group>
+
+    <!-- Red Lamp -->
+    <group>
+      <translate x="0" y="0">
+        <z><sub left="2beat" right="2"/></z>
+      </translate>
+      <color red="1" green="0.4" blue="0.4" alpha="0.9"/>
+      <sphere radius="0.3" slices="10" stacks="10"/>
+      <point id="T2-red-lamp"/>
+    </group>
+
+    <!-- Neons -->
+    <group id="neonlicht">
+      <cylinder top="0.1" bottom="0.1" height="1" slices="10" stacks="1"/>
+      <circle radius="0.1" vertex-count="10"/>
+      <group>
+        <translate x="0" y="0" z="1"/>
+        <circle radius="0.1" vertex-count="10"/>
+      </group>
+    </group>
+    <group> <!-- Neon 1 -->
+      <translate x="-2" y="-2">
+        <z><sub left="73" right="t200"/></z>
+      </translate>
+      <color red="0.5" green="1" blue="0.5" alpha="0.999"/>
+      <insert-group reference="neonlicht"/>
+      <point id="T2-neon-1"/>
+      <group>
+        <translate x="0" y="0" z="2"/>
+        <point id="T2-neon-behind"/>
+      </group>
+    </group>
+    <group> <!-- Neon 2 -->
+      <translate x="-2" y="2">
+        <z><add left="-50" right="t200"/></z>
+      </translate>
+      <color red="0.5" green="1" blue="1" alpha="0.999"/>
+      <insert-group reference="neonlicht"/>
+      <point id="T2-neon-2"/>
+    </group>
+    <group> <!-- Neon 3 -->
+      <translate x="2" y="2">
+        <z><sub left="20" right="t200"/></z>
+      </translate>
+      <color red="1" green="1" blue="0.5" alpha="0.999"/>
+      <insert-group reference="neonlicht"/>
+      <point id="T2-neon-3"/>
+    </group>
+    <group> <!-- Neon 4 -->
+      <translate x="2" y="-2">
+        <z><sub left="120" right="t200"/></z>
+      </translate>
+      <color red="1" green="0.5" blue="1" alpha="0.999"/>
+      <insert-group reference="neonlicht"/>
+      <point id="T2-neon-4"/>
+    </group>
+  </group>
+
+
+
+  <!-- ** World ** -->
+  <group id="world">
+    <point id="origin"/>
+
+    <insert-group reference="tunnel-2"/>
+
+  </group>
+
+  <camera-list>
+    <fixed-camera key="1" position="T2-cam-static" lookat="T2-neon-3" opening="0.5"/>
+    <fixed-camera key="1" position="T2-cam-spiral" lookat="end" opening="1"/>
+    <fixed-camera  key="2" position="T2-neon-behind" lookat="T2-neon-1" opening="1"/>
+  </camera-list>
+
+  <light-list>
+    <ambient intensity="0.5"/>
+
+    <!-- ** the gate spot ** -->
+    <spot position="gate-spot" lookat="gate-pos" cutoff="40" exponent="16" intensity="4"/>
+
+    <lamp position="T2-light1" intensity="10.0"/>
+    <lamp position="T2-light2" intensity="10.0"/>
+    <lamp position="T2-red-lamp" red-intensity="8" green-intensity="2" blue-intensity="2"/>
+    <lamp position="T2-neon-1"   red-intensity="5" green-intensity="10" blue-intensity="5"/>
+    <lamp position="T2-neon-2"   red-intensity="5" green-intensity="10" blue-intensity="10"/>
+    <lamp position="T2-neon-3"   red-intensity="10"   green-intensity="10" blue-intensity="5"/>
+    <lamp position="T2-neon-4"   red-intensity="10"   green-intensity="5" blue-intensity="10"/>
+  </light-list>
+
+  <camera-schedule>
+    <checkpoint camera="0" time="0"/>
+    <checkpoint camera="1" time="4000"/>
+    <checkpoint camera="2" time="10000"/>
+  </camera-schedule>
+
+  <music filename="../resources/14 - Comic Bakery.ogg"/>
+
+</scene>

@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene>
+
+  <!-- 
+       =========================================
+       == HIVE scene, using the ZarBee Engine ==
+       =========================================
+
+       Authors:
+         * Josefin Gustavson
+         * Sandro Stucki
+         * Marco Schmalz
+         * Sébastien Cevey
+
+       $Id: hive.xml 283 2005-04-28 15:42:18Z seb $ 
+  -->
+
+
+  <!--  =============================  COMMON STUFF  =============================  -->
+
+  <!--  ** Tweaking **  -->
+  <param name="TOST-tunnel1" value= "22000"/>  <!-- Time offsets -->
+  <param name="TOST-city"    value= "36000"/>
+  <param name="TOST-tunnel2" value= "78000"/>
+  <param name="TOST-sea"     value="101000"/>
+  <param name="TOST-tunnel3" value="129000"/>
+  <param name="TOST-robot"   value="144000"/>
+  <param name="TOST-tunnel4" value="172000"/>
+  <param name="TOST-end"     value="186000"/>
+
+
+  <!--  ** Misc Variables **  -->
+  <param name="pi" value="3.141592653589793238462643383"/>
+
+
+  <param name="t200"><value>
+    <div left="time" right="100"/>
+  </value></param>
+
+  <param name="t100"><value>
+    <div left="time" right="100"/>
+  </value></param>
+  <param name="t100-"><value>
+    <sub left="0" right="time"/>
+  </value></param>
+
+  <param name="t10"><value>
+    <div left="time" right="10"/>
+  </value></param>
+
+  <param name="t5"><value>
+    <div left="time" right="5"/>
+  </value></param>
+  <param name="t5-"><value>
+    <sub left="0" right="t5"/>
+  </value></param>
+
+
+  <!--  ** Gate **  -->
+  <param name="smooth-wave"><value>
+    <div right="10"><left>
+      <add right="2"><left>
+        <sin><operand><div left="time" right="2000"/></operand></sin>
+      </left></add>
+    </left></div>
+  </value></param>
+
+  <param name="smooth-wave-inv"><value>
+    <sub left="0" right="smooth-wave"/>
+  </value></param>
+
+  <group id="gate">
+    <group>  <!-- Gate layer 1 -->
+      <translate x="0" y="0" z="-0.01"/>
+      <rotate angle="t100" axis-x="0" axis-y="0" axis-z="1"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="1" vertex-count="20"/>
+    </group>
+    <group>  <!-- Gate layer 2 -->
+      <translate x="0" y="0" z="0.01"/>
+      <rotate angle="t100-" axis-x="0" axis-y="0" axis-z="1"/>
+      <scale x="smooth-wave-inv" y="smooth-wave-inv" z="0"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="smooth-wave" vertex-count="20"/>
+    </group>
+    <group>  <!-- Gate border -->
+      <rotate angle="90" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="1.1" y="0" z="0"/>
+      <extrude angle="20" axis-x="0" axis-y="0" axis-z="0" stacks="16"/>
+      <color red="0.3" green="0.3" blue="0.3" alpha="1"/>
+      <circle radius="0.1" vertex-count="6"/>
+    </group>
+  </group>
+
+
+
+  <!--  =============================  START/END SCENE  =============================  -->
+
+
+
+  <!--  =============================  TUNNEL 1 SCENE  =============================  -->
+
+
+
+  <!--  =============================  TUNNEL 2 SCENE  =============================  -->
+
+  <!--  =============================  TUNNEL 3 SCENE  =============================  -->
+
+  <!--  =============================  CITY SCENE  =============================  -->
+
+  <!--  =============================  ROBOT SCENE  =============================  -->
+
+
+  <!--  =============================  THE CAMERAS  =============================  -->
+  <camera-list>
+  </camera-list>
+
+
+  <!--  =============================  THE CAMERA SCHEDULE  =============================  -->
+  <camera-schedule>
+  </camera-schedule>
+
+
+  <!--  =============================  THE LIGHTS  =============================  -->
+  <light-list>
+  </light-list>
+
+
+  <!--  =============================  THE MUSIC  =============================  -->
+
+  <!-- "Comic Bakery" by Instant Remedy -->
+  <music filename="resources/14 - Comic Bakery.ogg"/>
+
+</scene>

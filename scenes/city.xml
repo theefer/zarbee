@@ -1,0 +1,416 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+
+<!-- $Id: city.xml 313 2005-04-29 02:30:58Z marco $ -->
+
+<scene duration="41500">
+  
+<!-- Parameters -->
+<param name="pi" value="3.141592653589793238462643383"/>
+
+<param name="pi_2"><value>
+    <div left="pi" right="2"/>
+</value></param>
+  
+<param name="beat"><value>
+    <div left="time" right="450"/>
+</value></param>
+
+<param name="2beat"><value>
+    <div left="beat" right="2"/>
+</value></param>
+
+<param name="2beat-alt"><value>
+    <div right="2"><left><add left="beat" right="1"/></left></div>
+</value></param>
+
+<param name="city_start_time" value="0"/>
+
+<param name="city_time1">
+    <value><add left="city_start_time" right="0"/></value> <!-- start (cam1)-->
+</param>
+<param name="city_time2">
+    <value><add left="city_start_time" right="7200"/></value>  <!-- headbanging (cam2) -->
+</param>
+<param name="city_time3">
+    <value><add left="city_start_time" right="11000"/></value>  <!-- headbanging climax -->
+</param>
+<param name="city_time4">
+    <value><add left="city_start_time" right="14300"/></value>  <!-- street diving (cam3) -->
+</param>
+<param name="city_time5">
+    <value><add left="city_start_time" right="21500"/></value>  <!-- tower bounce -->
+</param>
+<param name="city_time6">
+    <value><add left="city_start_time" right="29600"/></value>  <!-- turning (cam4) -->
+</param>
+<param name="city_time7">
+    <value><add left="city_start_time" right="35800"/></value>  <!-- decent -->
+</param>
+
+
+<param name="city_light_sine"><value>
+    <add left="15"><right><mult left="5"><right>
+        <sin><operand>
+            <mult left="pi"><right><div right="9000"><left>
+                <sub left="city_time1" right="time"/>
+            </left></div></right></mult>
+        </operand></sin>
+    </right></mult></right></add>
+</value></param>
+  
+<param name="city_cam1_2_angle"><value>
+    <div left="time" right="30"/>
+</value></param>
+  
+<param name="city_cam2_distance"><value>
+    <sub left="15"><right>
+        <mult left="0.0013">
+            <right><sub left="time" right="city_time2"/></right>
+        </mult>
+    </right></sub>
+</value></param>
+
+<param name="city_cam2_lookat_angle"><value>
+    <mult left="360" right="beat"/>
+</value></param>
+
+<param name="city_cam2_lookat_distance"><value>
+    <mult left="1"><right>
+        <sin><operand><div>
+            <left><mult right="pi_2">
+                <left><sub left="time" right="city_time2"/></left>
+            </mult></left>
+            <right><sub left="city_time2" right="city_time1"/></right>
+        </div></operand></sin>
+    </right></mult>
+</value></param>
+
+<param name="city_cam3_speed"><value>
+    <mult left="0.4" right="beat"/>
+</value></param>
+
+<param name="city_cam3_h"><value>
+    <add left="-3"><right>
+        <mult left="10">
+            <right><cos operand="city_cam3_speed"/></right>
+        </mult>
+    </right></add>
+</value></param>
+
+<param name="city_cam3_v"><value>
+    <add left="6"><right>
+        <mult left="5">
+            <right><sin operand="city_cam3_speed"/></right>
+        </mult>
+     </right></add>
+</value></param>
+
+
+<param name="city_tower_bounce"><value>
+    <add left="5"><right>
+        <mult>
+            <left><min left="0.7"><right><mult left="0.0005"><right>
+                <max left="0"><right><sub left="time" right="city_time5"/></right></max>
+            </right></mult></right></min></left>
+            <right><mult>
+                <left><sin><operand><mult left="pi" right="beat"/></operand></sin></left>
+                <right><sin><operand><mult left="pi" right="beat"/></operand></sin></right>
+            </mult></right>
+        </mult>
+     </right></add>
+</value></param>
+
+<param name="city_cam4_angle"><value>
+    <mult>
+        <left><max left="0"><right><sub left="time" right="city_time6"/></right></max></left>
+        <right><mult left="beat" right="0.001"/></right>
+    </mult>
+</value></param>
+
+<param name="city_cam4_height"><value>
+    <sub left="10">
+        <right><mult left="0.0015"><right>
+            <max left="0"><right><sub left="time" right="city_time7"/></right></max>
+        </right></mult></right>
+    </sub>
+</value></param>
+
+<param name="city_car_sine"><value>
+    <sin><operand>
+        <mult left="pi" right="2beat"/>
+    </operand></sin>
+</value></param>
+  
+<param name="city_cars1"><value>
+    <mult>
+        <left><add left="1.0" right="city_car_sine"/></left>
+        <right><square_wave operand="2beat"/></right>
+    </mult>
+</value></param>
+  
+<param name="city_fast_cars1"><value>
+    <mult left="0.25">
+        <right><mult left="city_cars1">
+            <right><mult left="city_cars1" right="city_cars1"/></right>
+        </mult></right>
+    </mult>
+</value></param>
+  
+  
+<param name="city_fast_cars2">
+    <value>
+        <sub left="0" right="city_fast_cars1"/>
+    </value>
+</param>
+  
+<param name="city_slow_cars1"><value>
+    <mult>
+        <left><add left="1.0" right="city_car_sine"/></left>
+        <right><square_wave>
+            <operand><add left="1.0" right="2beat"></add></operand>
+        </square_wave></right>
+    </mult>
+</value></param>
+  
+<param name="city_slow_cars2">
+    <value>
+        <sub left="0" right="city_slow_cars1"/>
+    </value>
+</param>
+
+
+<!-- THE WORLD -->
+<group id="world">
+  
+    <group id="city">
+        <scale x="0.5" y="0.5" z="0.5"/>
+        <color red="0.8" green="0.8" blue="0.8" alpha="0.85"/>
+        
+        <group id="city_sky">
+            <color red="1.0" green="0.2" blue="0.2" alpha="0.99"/>
+            <sphere radius="20" slices="30" stacks="30"/>
+        </group>
+        
+        <group id="city_towers">
+            <spin-array angle="0.0" axis-x="2.0" axis-y="0.0" axis-z="0.0" instances="5"/>
+            <translate x="-4" y="0" z="0"/>
+            <scale x="2" y="2" z="2"/>
+            <group id="city_street">
+                <spin-array angle="0.0" axis-x="0.0" axis-y="0.0" axis-z="2.0" instances="5"/>
+                <translate x="0" y="0" z="-4"/>
+                <group id="city_tower">
+                    <translate x="0" y="2.5" z="0"/>
+                    <scale x="0.2" y="0.6" z="0.2"/>
+                    <cube size="city_tower_bounce"/>
+                </group>
+            </group>
+        </group>
+        
+        <group id="city_surrounding">
+            <color red="0" green="0" blue="0" alpha="1"/>
+            <group id="west">
+                <scale x="10" y="1" z="30"/>
+                <translate x="16" y="0.25" z="0"/>
+                <cube size="1"/>
+            </group>
+            <group id="city_east">
+                <scale x="10" y="1" z="30"/>
+                <translate x="-16" y="0.25" z="0"/>
+                <cube size="1"/>
+            </group>
+            <group id="city_north">
+                <scale x="30" y="1" z="10"/>
+                <translate x="0" y="0.25" z="16"/>
+                <cube size="1"/>
+            </group>
+            <group id="city_south">
+                <scale x="30" y="1" z="10"/>
+                <translate x="0" y="0.25" z="-16"/>
+                <cube size="1"/>
+            </group>
+        </group>
+            
+        <group id="city_ground">
+            <scale x="4" y="4" z="4"/>
+            <rotate angle="90" axis-x="-1" axis-y="0" axis-z="0"/>
+            <linear-texture filename="../resources/textures/street.png"/>
+        	<polygon>
+                <vertex x="-3" y="3" z="0"/>
+                <vertex x="-3" y="-3" z="0"/>
+                <vertex x="3" y="-3" z="0"/>
+                <vertex x="3" y="3" z="0"/>
+            </polygon>
+        </group>
+        
+        <group id="city_cars1">
+            <translate x="0" y="0" z="city_fast_cars1"/>
+            <spin-array angle="0.0" axis-x="2.0" axis-y="0.0" axis-z="0.0" instances="6"/>
+            <translate x="-6" y="0" z="0"/>
+            <scale x="2" y="2" z="2"/>
+            <group>
+                <spin-array angle="0.0" axis-x="0.0" axis-y="0.0" axis-z="2.0" instances="6"/>
+                <translate x="0" y="0" z="-6"/>
+                <group id="city_car1_1">
+                    <translate x="0.75" y="0.15" z="-0.25"/>
+                    <cube size="0.3"/>
+                </group>
+                <group id="city_car1_2">
+                    <translate x="0.75" y="0.15" z="0.25"/>
+                    <cube size="0.3"/>
+                </group>
+            </group>
+        </group>
+        <group id="city_cars2">
+            <translate x="0" y="0" z="city_fast_cars2"/>
+            <spin-array angle="0.0" axis-x="2.0" axis-y="0.0" axis-z="0.0" instances="6"/>
+            <translate x="-4" y="0" z="0"/>
+            <scale x="2" y="2" z="2"/>
+            <group>
+                <spin-array angle="0.0" axis-x="0.0" axis-y="0.0" axis-z="2.0" instances="6"/>
+                <translate x="0" y="0" z="-4"/>
+                <group id="city_car2_1">
+                    <translate x="-0.75" y="0.15" z="-0.25"/>
+                    <cube size="0.3"/>
+                </group>
+                <group id="city_car2_2">
+                    <translate x="-0.75" y="0.15" z="0.25"/>
+                    <cube size="0.3"/>
+                </group>
+            </group>
+        </group>
+        <group id="city_cars3">
+            <translate x="city_slow_cars1" y="0" z="0"/>
+            <spin-array angle="0.0" axis-x="2.0" axis-y="0.0" axis-z="0.0" instances="6"/>
+            <translate x="-6" y="0" z="0"/>
+            <scale x="2" y="2" z="2"/>
+            <group>
+                <spin-array angle="0.0" axis-x="0.0" axis-y="0.0" axis-z="2.0" instances="6"/>
+                <translate x="0" y="0" z="-6"/>
+                <group id="city_car3_1">
+                    <translate x="-0.25" y="0.15" z="0.75"/>
+                    <cube size="0.3"/>
+                </group>
+                <group id="city_car3_2">
+                    <translate x="0.25" y="0.15" z="0.75"/>
+                    <cube size="0.3"/>
+                </group>
+            </group>
+        </group>
+        <group id="city_cars4">
+            <translate x="city_slow_cars2" y="0" z="0"/>
+            <spin-array angle="0.0" axis-x="2.0" axis-y="0.0" axis-z="0.0" instances="6"/>
+            <translate x="-4" y="0" z="0"/>
+            <scale x="2" y="2" z="2"/>
+            <group>
+                <spin-array angle="0.0" axis-x="0.0" axis-y="0.0" axis-z="2.0" instances="6"/>
+                <translate x="0" y="0" z="-4"/>
+                <group id="city_car4_1">
+                    <translate x="-0.25" y="0.15" z="-0.75"/>
+                    <cube size="0.3"/>
+                </group>
+                <group id="city_car4_2">
+                    <translate x="0.25" y="0.15" z="-0.75"/>
+                    <cube size="0.3"/>
+                </group>
+            </group>
+        </group>
+        
+        <!-- cameras -->
+        <group>
+        	<translate x="0.0" y="10.0" z="15.0"/>
+        	<rotate angle="city_cam1_2_angle" axis-x="0" axis-y="1" axis-z="0" />
+            <point id="city_cam1" />
+        </group>
+        <group>
+        	<translate x="0.0" y="10.0" z="city_cam2_distance"/>
+        	<rotate angle="city_cam1_2_angle" axis-x="0" axis-y="1" axis-z="0" />
+            <point id="city_cam2" />
+        </group>
+        <group>
+        	<translate x="0.0" y="0.0" z="city_cam2_lookat_distance"/>
+        	<rotate angle="city_cam2_lookat_angle" axis-x="0" axis-y="1" axis-z="0" />
+            <point id="city_cam2_lookat" />
+        </group>
+        <group>
+        	<translate x="city_cam3_h" y="city_cam3_v" z="2"/>
+            <point id="city_cam3" />
+        </group>
+        <group>
+        	<translate x="7.5" y="0.0" z="2"/>
+            <point id="city_cam3_lookat" />
+        </group>
+        <group>
+            <translate x="0.5" y="0" z="0"/>
+            <rotate angle="city_cam4_angle" axis-x="0" axis-y="1" axis-z="0" />
+        	<translate x="2" y="city_cam4_height" z="2"/>
+            <point id="city_cam4" />
+        </group>
+        <group>
+        	<translate x="2" y="0.0" z="2"/>
+            <point id="city_cam4_lookat" />
+        </group>
+        
+        
+        
+        <!-- lights -->
+        <group>
+        	<translate x="city_light_sine" y="4.0">
+        	   <z><sub left="0" right="city_light_sine"/></z>
+        	</translate>
+            <point id="city_light0" />
+        </group>
+        <group>
+        	<translate y="4.0">
+                <x><sub left="0" right="city_light_sine"/></x>
+                <z><sub left="0" right="city_light_sine"/></z>
+            </translate>
+            <point id="city_light1" />
+        </group>
+        <group>
+        	<translate y="4.0" z="city_light_sine">
+        	   <x><sub left="0" right="city_light_sine"/></x>
+        	</translate>
+            <point id="city_light2" />
+        </group>
+        <group>
+        	<translate x="city_light_sine" y="4.0" z="city_light_sine"/>
+            <point id="city_light3" />
+        </group>
+    </group>
+    <!-- =========== END CITY =========== -->
+
+    <!-- the origin -->
+    <point id="zero" />
+</group>
+
+
+<camera-list>
+    <fixed-camera key="1" position="city_cam1" lookat="zero" opening="1"/>
+    <fixed-camera key="2" position="city_cam2" lookat="city_cam2_lookat" opening="1"/>
+    <fixed-camera key="3" position="city_cam3" lookat="city_cam3_lookat" opening="1"/>
+    <fixed-camera key="4" position="city_cam4" lookat="city_cam4_lookat" opening="1"/>
+</camera-list>
+
+<light-list>
+    <ambient intensity="0.0"/>
+    <spot position="city_light0" lookat="zero" cutoff="90" exponent="10" 
+    red-intensity="0.0" blue-intensity="city_light_sine" green-intensity="0.0" />
+    <spot position="city_light1" lookat="zero" cutoff="90" exponent="10" 
+    red-intensity="city_light_sine" blue-intensity="0.0" green-intensity="0.0" />
+    <spot position="city_light2" lookat="zero" cutoff="90" exponent="10" 
+    red-intensity="city_light_sine" blue-intensity="city_light_sine" green-intensity="0.0" />
+    <spot position="city_light3" lookat="zero" cutoff="90" exponent="10" 
+    red-intensity="0.0" blue-intensity="city_light_sine" green-intensity="city_light_sine" />
+</light-list>
+
+<camera-schedule>
+    <checkpoint time="0" camera="0"/>
+    <checkpoint time="7200" camera="1"/>
+    <checkpoint time="14300" camera="2"/>
+    <checkpoint time="28600" camera="3"/>
+</camera-schedule>
+  
+<music filename="../resources/14 - Comic Bakery.ogg" />
+  
+</scene>

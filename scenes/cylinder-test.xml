@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene>
+
+  <param name="alpha">
+    <value>
+      <div left="time" right="10"/>
+    </value>
+  </param>
+
+  <param name="phi">
+    <value>
+      <add right="2">
+        <left>
+          <sin>
+            <operand>
+              <div left="time" right="200" />
+            </operand>
+          </sin>
+        </left>
+      </add>
+    </value>
+  </param>
+
+  <param name="psi">
+    <value>
+      <add right="2">
+        <left>
+          <sin>
+            <operand>
+              <div left="time" right="300" />
+            </operand>
+          </sin>
+        </left>
+      </add>
+    </value>
+  </param>
+
+  <group id="world">
+    <point id="zero" />
+    <group>
+    	<translate x="0.0" y="1.0" z="-10.0"/>
+	    <point id="cam1" />
+    </group>
+    <group>
+    	<translate x="0.0" y="5.0" z="-10.0"/>
+	    <point id="cam3" />
+    </group>
+    <group>
+    	<translate x="5.0" y="4.0" z="-5.0"/>
+	    <point id="light0" />
+    </group>
+    <group>
+    	<translate x="0.0" y="0.0" z="-15.0"/>
+    	<rotate angle="alpha" axis-x="0" axis-y="1" axis-z="0" />
+	    <point id="cam2" />
+    </group>
+
+    <group>
+        <translate x="0.0" y="0.0" z="-2.5" />
+        <rotate axis-x="0.3" axis-y="0.2" axis-z="1.0" angle="alpha" />
+        <color red="1.0" green="0.4" blue="0.1" alpha="0.6" />
+        <cylinder bottom="phi" top="psi" height="5" slices="12" stacks="2" />
+    </group>
+  </group>
+
+  <camera-list>
+    <fixed-camera key="1" position="cam1" lookat="zero" opening="1"/> <!-- static camera -->
+    <fixed-camera key="2" position="cam2" lookat="zero" opening="1"/> <!-- rotating camera -->
+    <free-camera key="2" position="cam3" lookat="zero" opening="1"/>
+  </camera-list>
+
+  <light-list>
+    <ambient intensity="0.5"/>
+    <lamp position="light0" intensity="200.0"/>
+  </light-list>
+</scene>

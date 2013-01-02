@@ -1,0 +1,71 @@
+Our project is a ``3D Scene Creation Engine''.
+
+Its goal is to provide developpers with a simple way to build a 3D
+scene with a hierarchy of primitive 3D objects.  It will be possible
+to apply modifiers (linear and non-linear) and textures to any part of
+the world object tree.  Dynamic parameters, computed with custom
+functions, will be used to animate any part of the world, including
+the lights and the camera.
+
+A demonstration software will then be realized using the engine, with
+a sequence of scenes showing the different features implemented.  The
+exact content of the demo will depend on how much we will manage to
+add to the engine.
+
+The programming language will be C++ and the code will be Object
+Oriented.  It should therefore be easy to extend the engine with new
+primitive objects, modifiers, texture mappings and other features.
+
+The world description will be done in XML.  This will allow the
+creation of a complete 3D scene without any additional programming.
+Moreover, the hierarchical structure of the description will allow
+operations to be performed on groups of objects in a convenient way.
+
+
+The amount of features possible in this kind of engine is almost
+infinite, so we have defined a list of prioritized elements for each
+area of the development:
+
+[ note: Normal items are high-priority tasks, items in parentheses are
+  low-priority tasks to be implemented if time permits. ]
+
+* Primitives
+
+  - Triangle            [ 2D ]
+  - Quad
+ (- Polygon)
+ (- Billboard)
+
+  - Box                 [ 3D ]
+  - Sphere
+  - Cylinder
+ (- Tetrahedron)
+ (- Metaball)
+
+* Modifiers
+
+  - Rotation            [ Linear transformations ]
+  - Translation
+  - Scaling
+ (- Mirroring)
+ (- Shearing)
+ (- Custom matrix multiplication)
+
+  - "Trapezium"         [ Non-linear transformations ]
+ (- Twist)
+ (- Pseudo bump-mapping)
+
+* Functions (to generate dynamic parameters)
+
+  - Constant
+  - Linear
+  - Trigonometric
+ (- Polynomial-n)
+  - Composition
+ (- Superposition, multiplication)
+
+* Textures
+
+  - Colors
+  - Mapping to objects (possibly different types)
+ (- Alpha channel / transparency)

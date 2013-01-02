@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene>
+	<param name="alpha1">
+		<value>
+			<div left="time" right="5" />
+		</value>
+	</param>
+	<param name="alpha2">
+		<value>
+			<div left="time" right="10" />
+		</value>
+	</param>
+	<param name="alpha3">
+		<value>
+			<div left="time" right="500" />
+		</value>
+	</param>
+	<param name="a">
+		<value>
+			<mult left="15">
+				<right>
+					<cos operand="alpha2" />
+				</right>
+			</mult>
+		</value>
+	</param>
+	<param name="b">
+		<value>
+			<mult left="0.5">
+				<right>
+					<sin operand="alpha3" />
+				</right>
+			</mult>
+		</value>
+	</param>
+	<param name="alpha-z">
+		<value>
+			<div left="time" right="900"/>
+		</value>
+	</param>
+	<param name="alpha-x">
+		<value>
+			<div left="time" right="450"/>
+		</value>
+	</param>
+	<param name="alpha-eight">
+		<value>
+			<mult left="135">
+				<right>
+					<sin operand="alpha-z"/>
+				</right>
+			</mult>
+		</value>
+	</param>
+	<param name="eight-z">
+		<value>
+			<mult left="3">
+				<right>
+					<cos operand="alpha-z"/>
+				</right>
+			</mult>
+		</value>
+	</param>
+	<param name="eight-x">
+		<value>
+			<mult left="-2">
+				<right>
+					<sin operand="alpha-x"/>
+				</right>
+			</mult>
+		</value>
+	</param>
+
+
+	<group id="world">
+        <color red="1" green="1" blue="1" alpha="1" />
+
+		<group id="bee">
+			<rotate angle="alpha-eight" axis-x="0" axis-y="-1" axis-z="0"/>
+			<translate x="eight-x" y="0" z="eight-z"/>
+			<translate x="1.2" y="0" z="4.5"/>
+
+			<group id="cam2">
+				<translate x="2.5" y="0.1" z="2.75"/>
+				<point id="cam2"/>
+			</group>
+
+			<group id="lookat2">
+				<translate x="-1.0" y="0" z="0"/>
+				<point id="lookat2"/>	
+			</group>			
+
+			<group id="bee-sphere">
+				<sphere slices="30" stacks="20" radius="0.5"/>
+			</group>
+		</group>
+
+
+		<group id="bee hive">
+			<translate x="-8" y="-4" z="-8"/>
+			<group>
+				<cube size="2"/>
+			</group>
+		</group>
+		<group id="ground">
+			<translate x="0" y="2" z="0"/>
+			<group id="grass">
+				<scale x="5" y="5" z="5"/>
+				<rotate angle="90" axis-x="-1" axis-y="0" axis-z="0"/>
+				<translate x="0" y="-5" z="-15"/>
+				<polygon>
+					<vertex x="-3" y="0" z="0"/>
+					<vertex x="-3" y="-6" z="0"/>
+					<vertex x="6" y="-6" z="0"/>
+					<vertex x="6" y="0" z="0"/>
+				</polygon>
+			</group>
+
+			<group id="rocks">
+				<scale x="0.85" y="0.85" z="0.85"/>
+				<translate x="10" y="-5.5" z="1"/>
+				<group>
+					<rotate angle="30" axis-x="0" axis-y="-1" axis-z="0"/>
+					<translate x="0" y="0.5" z="0.5"/>
+					<scale x="1.5" y="1.5" z="1.5"/>
+					<sphere slices="50" stacks="40" radius="1.5"/>
+				</group>
+				<group>
+					<rotate angle="20" axis-x="-1" axis-y="0" axis-z="0"/>
+					<translate x="0.5" y="0.2" z="3"/>
+					<sphere slices="50" stacks="40" radius="2"/>
+				</group>
+			</group>
+			<group id="cube1">
+				<translate x="-8.5" y="-4" z="6"/>
+				<cube size="2"/>
+			</group>
+			<group id="pyramid">
+				<scale x="1.5" y="1.5" z="1.5"/>
+				<translate x="-8.5" y="-6.2" z="-2"/>
+				<group id="pyramid sides">	
+					<polygon>
+						<vertex x="2" y="0" z="2"/>
+						<vertex x="0" y="4" z="0"/>
+						<vertex x="-2" y="" z="2"/>
+					</polygon>
+					<polygon>
+						<vertex x="2" y="0" z="-2"/>
+						<vertex x="0" y="4" z="0"/>
+						<vertex x="2" y="0" z="2"/>
+					</polygon>
+					<polygon>
+						<vertex x="-2" y="0" z="-2"/>
+						<vertex x="0" y="4" z="0"/>
+						<vertex x="2" y="0" z="-2"/>
+					</polygon>
+					<polygon>
+						<vertex x="-2" y="0" z="2"/>
+						<vertex x="0" y="4" z="0"/>
+						<vertex x="-2" y="0" z="-2"/>
+					</polygon>
+				</group>
+			</group>
+		</group>
+
+		<group id="still camera">				
+			<translate x="0" y="3.0" z="12.0" />
+			<point id="cam1" />
+		</group>			
+		<group id="rotating camera">
+			<translate x="-4.5" y="5" z="4.3" />
+			<rotate angle="alpha2" axis-x="0" axis-y="-1" axis-z="0"/>
+			<point id="cam3" />
+		</group>
+		<group>
+			<translate x="-8" y="1" z="8" />
+			<point id="light0" />
+		</group>
+		<group>
+			<point id="light1" />
+		</group>
+		<group>
+			<translate x="4" y="1" z="8" />
+			<point id="light2" />
+		</group>
+		<point id="zero" />
+	</group>
+
+	<camera-list>
+		<fixed-camera key="1" position="cam1" lookat="zero" opening="1" />
+		<fixed-camera key="2" position="cam2" lookat="lookat2" opening="1" />
+		<fixed-camera key="3" position="cam3" lookat="zero" opening="1" />
+	</camera-list>
+	<light-list>
+		<ambient intensity="1.9" />
+		<lamp position="light0" intensity="25" />
+		<lamp position="light2" intensity="15" />
+    		<sun  direction="light1" red-intensity="1" green-intensity="0" blue-intensity="0"/>
+	</light-list>
+</scene>

@@ -1,0 +1,385 @@
+<!--  XML  -->
+<scene id="scene 2">
+
+<!--____________________PARAMETERS FOR THE SCENE__________________________________________________________-->
+	<param name="wing-time">
+		<value>
+			<div left="time" right="10" />
+		</value>
+	</param>
+
+	<param name="wing-angle">
+		<value>
+			<mult left="15">
+				<right><cos operand="wing-time" /></right>
+			</mult>
+		</value>
+	</param>
+	<param name="jump-time">
+		<value>
+			<div left="time" right="1550" />
+		</value>
+	</param>
+	<param name="jump-angle">
+		<value>
+			<add left="1.5">
+				<right>
+					<mult left="1.5">
+						<right><cos operand="jump-time" /></right>
+					</mult>
+				</right>
+			</add>
+		</value>
+	</param>
+
+
+	<param name="alpha0">
+		<value>
+			<div left="time" right="80" />
+		</value>
+	</param>
+    
+    	<param name="alpha1">
+		<value>
+			<div left="time" right="500" />
+		</value>
+	</param>
+	<param name="alpha2">
+		<value>
+			<div left="time" right="200" />
+		</value>
+	</param>
+	<param name="alpha3">
+		<value>
+			<div left="time" right="600" />
+		</value>
+	</param>
+	<param name="alpha4">
+		<value>
+			<div left="time" right="400" />
+		</value>
+	</param>
+
+	<param name="a">
+		<value>
+            	<add left="0.5">
+			     <right>
+                        	<mult left="0.5">
+				              <right><cos operand="alpha1" /></right>
+                        	</mult>
+                  	</right>
+            	</add>
+		</value>
+	</param>
+	<param name="b">
+		<value>
+            	<add left="0.5">
+			 	<right>
+                        	<mult left="0.5">
+				    		<right><cos operand="alpha2" /></right>
+                        	</mult>
+                  	</right>
+            	</add>
+		</value>
+	</param>
+	<param name="c">
+		<value>
+            	<add left="0.5">
+				<right>
+                        	<mult left="0.5">
+				      	<right><cos operand="alpha4" /></right>
+                        	</mult>
+                  	</right>
+            	</add>
+		</value>
+	</param>
+	<param name="d">
+		<value>
+			<mult left="0.5">
+				<right>
+					<sin operand="alpha3" />
+				</right>
+			</mult>
+		</value>
+	</param>
+
+	<!--___________________WORLD BEGINS HERE__________________________________________________________________________-->
+	
+	<group id="world">
+		<point id="zero" />
+
+		<!--_____________THREE FLOWERS__________________________________________________-->
+		
+        	<group id="three flowers">
+        		<rotate angle="alpha0" axis-x="0" axis-y="1" axis-z="0"/>
+			<rotate angle="0" axis-x="0" axis-y="1" axis-z="0"/>
+        		<group>
+		    		<translate x="0" y="0" z="-2.89"/>
+		    		<group id="flower 1">
+		      		<scale x="0.5" y="0.5" z="0.5"/>
+		           		<group id="flower center">
+                        		<color red="0.3" green="0.8" blue="0.3" alpha="1.0"/>
+		                		<sphere slices="30" stacks="20" radius="0.3"/>
+                      		</group>
+                      		<group id="flower petal">
+                        		<translate x="1.1" y="0" z="0"/>
+                      	       	<rotate angle="10" axis-x="0" axis-y="-1" axis-z="0"/>
+                        	     	<group>
+                              		<rotate angle="25" axis-x="0" axis-y="0" axis-z="-1"/>
+		                        	<group>
+			      	            	<shear x-ycoeff="0.2" x-zcoeff="0" y-xcoeff="1.7"
+           		            	           	y-zcoeff="0" z-xcoeff="0" z-ycoeff="0"/>
+                                    	      <color red="a" green="b" blue="c" alpha="1.0"/>
+			                       		<sphere slices="50" stacks="20" radius="0.5"/>
+                   	              	</group>
+                        	     	</group>
+            	          	</group>
+		      	     	<group>
+		            		<rotate angle="60" axis-x="0" axis-y="1" axis-z="0"/>
+		   	             	<insert-group reference="flower petal"/>
+                  	   	</group>
+                      		<group>
+      	                  	<rotate angle="120" axis-x="0" axis-y="1" axis-z="0"/>
+			                 	<insert-group reference="flower petal"/>
+                  	    	</group>
+                      		<group>
+			               	<rotate angle="180" axis-x="0" axis-y="1" axis-z="0"/>
+			                 	<insert-group reference="flower petal"/>
+                  	    	</group>
+      	               	<group>
+			            	<rotate angle="240" axis-x="0" axis-y="1" axis-z="0"/>
+		      	          	<insert-group reference="flower petal"/>
+                      		</group>
+      	                	<group>
+			               	<rotate angle="300" axis-x="0" axis-y="1" axis-z="0"/>
+		      	           	<insert-group reference="flower petal"/>
+                      		</group>
+      	     		</group>
+        
+            	    	<group id="flower 2">
+                  		<translate x="-2.5" y="0" z="4.33"/>
+               			<group>
+			            	<scale x="0.5" y="0.5" z="0.5"/>
+			                 	<group id="flower center">
+                  	            	<color red="0.3" green="0.8" blue="0.3" alpha="1.0"/>
+		            	          	<sphere slices="30" stacks="20" radius="0.3"/>
+	                           	</group>
+      	                        <group id="flower petal">
+            	                  	<translate x="1.1" y="0" z="0"/>
+                  	                	<rotate angle="10" axis-x="0" axis-y="-1" axis-z="0"/>
+                        	          	<group>
+             		                       	<rotate angle="25" axis-x="0" axis-y="0" axis-z="-1"/>
+		            	                 	<group>
+			            	            	<shear x-ycoeff="0.2" x-zcoeff="0" y-xcoeff="1.7"
+                                    	           	y-zcoeff="0" z-xcoeff="0" z-ycoeff="0"/>
+                                          	    	<color red="b" green="a" blue="c" alpha="1.0"/>
+			         	                   	<sphere slices="50" stacks="20" radius="0.5"/>
+                              	         	</group>
+                                		</group>
+              	             	</group>
+		      	         	<group>
+		            	         	<rotate angle="60" axis-x="0" axis-y="1" axis-z="0"/>
+		                  	    	<insert-group reference="flower petal"/>
+                            		</group>
+                            		<group>
+		                    		<rotate angle="120" axis-x="0" axis-y="1" axis-z="0"/>
+		            	         	<insert-group reference="flower petal"/>
+                            		</group>
+           		                  <group>
+		      	                	<rotate angle="180" axis-x="0" axis-y="1" axis-z="0"/>
+		            	         	<insert-group reference="flower petal"/>
+                              	</group>
+          		                  <group>
+		      	               	<rotate angle="240" axis-x="0" axis-y="1" axis-z="0"/>
+			                     	<insert-group reference="flower petal"/>
+                  	            </group>
+                        	      <group>
+		                  	    	<rotate angle="300" axis-x="0" axis-y="1" axis-z="0"/>
+		       	                	<insert-group reference="flower petal"/>
+                 		            </group>
+                        	</group>
+              	   	</group>
+        
+                 		<group id="flower 3">
+                  		<translate x="2.5" y="0" z="4.33"/>
+               			<group>
+		            		<scale x="0.5" y="0.5" z="0.5"/>
+                              	<group id="flower center">
+           		                   	<color red="0.3" green="0.8" blue="0.3" alpha="1.0"/>
+                  	                 	<sphere slices="30" stacks="20" radius="0.3"/>
+                        	     	</group>
+             	                 <group id="flower petal">
+                  	            	<translate x="1.1" y="0" z="0"/>
+                        	          	<rotate angle="10" axis-x="0" axis-y="-1" axis-z="0"/>
+                              	     	<group>
+                  	                    	<rotate angle="25" axis-x="0" axis-y="0" axis-z="-1"/>
+		            	                 	<group>
+			            	              	<shear x-ycoeff="0.2" x-zcoeff="0" y-xcoeff="1.7"
+           		                  	           	y-zcoeff="0" z-xcoeff="0" z-ycoeff="0"/>
+                                          	    	<color red="c" green="a" blue="b" alpha="1.0"/>
+			                            		<sphere slices="50" stacks="20" radius="0.5"/>
+                                    	 	</group>
+                             		 	</group>
+                        	  	</group>
+		               		<group>
+		                     		<rotate angle="60" axis-x="0" axis-y="1" axis-z="0"/>
+			                      	<insert-group reference="flower petal"/>
+      	                     	</group>
+            	                 	<group>
+		      	              	<rotate angle="120" axis-x="0" axis-y="1" axis-z="0"/>
+		            	           	<insert-group reference="flower petal"/>
+                            		</group>
+                	            	<group>
+		      	               	<rotate angle="180" axis-x="0" axis-y="1" axis-z="0"/>
+		            	          	<insert-group reference="flower petal"/>
+                            		</group>
+           	                  	<group>
+			                      	<rotate angle="240" axis-x="0" axis-y="1" axis-z="0"/>
+		      	                 	<insert-group reference="flower petal"/>
+                       			</group>
+                             		<group>
+			                     	<rotate angle="300" axis-x="0" axis-y="1" axis-z="0"/>
+		      	               	<insert-group reference="flower petal"/>
+                        	   	</group>
+      	                 	</group>
+            	    	</group>
+       	  	</group>
+        	</group>
+         	
+		<!--__________________BEE___________________________________-->
+         	
+         	<group id="bee">
+			<scale x="0.3" y="0.3" z="0.3"/>
+			<group>
+				<translate x="0.0" y="jump-angle" z="0"/>
+   				<translate x="0.0" y="2.0" z="7.5"/>				
+				<group id="male-bee">		
+					<group id="striped body">				
+	      				<linear-texture filename="../resources/textures/stripe.png"/>
+						<translate x="0.0" y="-0.5" z="2.0"/>
+						<sphere slices="60" stacks="50" radius="1.0" />
+			
+						<group id="head">
+       						<linear-texture filename="../resources/textures/black.png"/>
+							<translate x="-1.0" y="0" z="0"/>
+							<sphere slices="20" stacks="20" radius="0.5"/>
+						</group>
+						<group id="right wing">
+            	            		<color red="1.0" green="1.0" blue="1.0" alpha="0.5" />
+							<scale x="0.1" y="0.1" z="0.1"/>
+							<translate x="0.5" y="0.5" z="-0.5"/>
+							<rotate angle="90" axis-x="0" axis-y="1" axis-z="0"/>
+							<rotate angle="wing-angle" axis-x="1" axis-y="0" axis-z="0"/>
+							<polygon>
+								<vertex x="0" y="0" z="0"/>
+								<vertex x="3" y="0" z="-4"/>
+								<vertex x="6" y="0" z="-7"/>
+								<vertex x="9" y="0" z="-10"/>
+								<vertex x="12" y="0" z="-12"/>
+								<vertex x="15" y="0" z="-13"/>
+								<vertex x="19" y="0" z="-12"/>
+								<vertex x="22" y="0" z="-10"/>
+								<vertex x="25" y="0" z="-6"/>
+								<vertex x="26" y="0" z="0"/>
+								<vertex x="25" y="0" z="6"/>
+								<vertex x="22" y="0" z="10"/>
+								<vertex x="19" y="0" z="12"/>
+								<vertex x="15" y="0" z="13"/>
+								<vertex x="12" y="0" z="12"/>
+								<vertex x="9" y="0" z="10"/>
+								<vertex x="6" y="0" z="7"/>
+								<vertex x="3" y="0" z="4"/>
+							</polygon>
+						</group>
+				
+						<group id="left wing">	
+                  		      	<color red="1.0" green="1.0" blue="1.0" alpha="0.5" />
+							<scale x="0.1" y="0.1" z="0.1"/>
+							<translate x="0.5" y="0.5" z="0.5"/>
+							<rotate angle="-90" axis-x="0" axis-y="1" axis-z="0"/>
+							<rotate angle="wing-angle" axis-x="1" axis-y="0" axis-z="0"/>
+							<polygon>
+								<vertex x="0" y="0" z="0"/>
+								<vertex x="3" y="0" z="-4"/>
+								<vertex x="6" y="0" z="-7"/>
+								<vertex x="9" y="0" z="-10"/>
+								<vertex x="12" y="0" z="-12"/>
+								<vertex x="15" y="0" z="-13"/>
+								<vertex x="19" y="0" z="-12"/>
+								<vertex x="22" y="0" z="-10"/>
+								<vertex x="25" y="0" z="-6"/>
+								<vertex x="26" y="0" z="0"/>
+								<vertex x="25" y="0" z="6"/>
+								<vertex x="22" y="0" z="10"/>
+								<vertex x="19" y="0" z="12"/>
+								<vertex x="15" y="0" z="13"/>
+								<vertex x="12" y="0" z="12"/>
+								<vertex x="9" y="0" z="10"/>
+								<vertex x="6" y="0" z="7"/>
+								<vertex x="3" y="0" z="4"/>
+							</polygon>
+						</group>
+					</group>
+				</group>
+			</group>
+		</group>
+        
+            <group>
+                <rotate axis-x="1.0" axis-y="0.0" axis-z="0.0" angle="-90" />
+                <translate x="4.0" y="0.0" z="0.0" />
+                <extrude angle="10" axis-x="0.1" axis-y="0.0" axis-z="d" stacks="alpha2" />
+                <rotate axis-x="0.3" axis-y="0.2" axis-z="1.0" angle="alpha2" />
+                <color red="0.3" green="0.8" blue="0.3" alpha="1.0"/>
+                <circle radius="0.1" vertex-count="12" /> 
+           </group>
+        
+        
+	<!--__________CAMERAS AND LIGHT___________________________________________________________________________-->
+
+		<group id="still camera">				
+			<translate x="0.1" y="1.5" z="8" />
+			<point id="cam1" />
+		</group>
+
+		<group id="rotating camera">
+			<translate x="1.8" y="2" z="6.8" />
+			<rotate angle="alpha2" axis-x="0" axis-y="-1" axis-z="0"/>
+			<point id="cam2" />
+		</group>
+
+		<group>
+			<translate x="0" y="8" z="0" />
+			<point id="light0" />
+		</group>
+	</group>
+
+	<camera-list>
+		<fixed-camera key="1" position="cam1" lookat="zero" opening="1" />
+		<fixed-camera key="2" position="cam2" lookat="zero" opening="1" />
+	</camera-list>
+	<light-list>
+		<ambient intensity="2.0" />
+		<lamp position="light0" intensity="18" />
+	</light-list>
+
+  <camera-schedule>
+    <checkpoint camera="0" time="0"/>
+    <checkpoint camera="1" time="450"/>
+    <checkpoint camera="0" time="900"/>
+    <checkpoint camera="1" time="1800"/>
+    <checkpoint camera="0" time="3600"/>
+    <checkpoint camera="1" time="5400"/>
+    <checkpoint camera="0" time="7200"/>
+    <checkpoint camera="1" time="10800"/>
+    <checkpoint camera="1" time="14600"/>
+    <checkpoint camera="0" time="18400"/>
+    <checkpoint camera="1" time="21000"/>
+    <checkpoint camera="0" time="28200"/>
+    <checkpoint camera="1" time="35400"/>
+    <checkpoint camera="0" time="42600"/>
+    <checkpoint camera="1" time="49800"/>
+    <checkpoint camera="0" time="56000"/>
+  </camera-schedule>
+
+
+</scene>

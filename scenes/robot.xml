@@ -1,0 +1,427 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene duration="28000">
+
+    <param name="beat"><value>
+        <div left="time" right="450"/>
+    </value></param>
+
+    <param name="2beat"><value>
+        <div left="beat" right="2"/>
+    </value></param>
+
+  <param name="4beat"><value>
+    <div left="beat" right="4"/>
+  </value></param>
+
+  <param name="t100"><value>
+    <div left="time" right="100"/>
+  </value></param>
+
+  <param name="t50"><value>
+    <div left="time" right="50"/>
+  </value></param>
+
+  <param name="t10"><value>
+    <div left="time" right="10"/>
+  </value></param>
+
+  <!--  ** Gate **  -->
+  <param name="smooth-wave"><value>
+    <div right="4"><left>
+      <add right="3"><left>
+        <sin><operand><div left="time" right="2000"/></operand></sin>
+      </left></add>
+    </left></div>
+  </value></param>
+
+  <param name="smooth-wave-inv"><value>
+    <sub left="0" right="smooth-wave"/>
+  </value></param>
+
+  <group id="gate">
+    <group>
+      <translate x="0" y="0" z="1.2" />
+      <point id="gate-spot" />
+    </group>
+    <group>  <!-- Gate layer 1 -->
+      <translate x="0" y="0" z="-0.01"/>
+      <rotate angle="t50" axis-x="0" axis-y="0" axis-z="1"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="1" vertex-count="20"/>
+      <point id="gate-pos" />
+    </group>
+    <group>  <!-- Gate layer 2 -->
+      <translate x="0" y="0" z="0.01"/>
+      <rotate angle="t100" axis-x="0" axis-y="0" axis-z="-1"/>
+      <scale x="smooth-wave-inv" y="smooth-wave-inv" z="0"/>
+      <linear-texture filename="../resources/textures/gate-surface.png"/>
+      <circle radius="smooth-wave" vertex-count="20"/>
+    </group>
+    <group>  <!-- Gate border -->
+      <rotate angle="-90" axis-x="1" axis-y="0" axis-z="0"/>
+      <translate x="1.1" y="0" z="0"/>
+      <extrude angle="20" axis-x="0" axis-y="0" axis-z="0" stacks="18"/>
+      <color red="0.3" green="0.3" blue="0.3" alpha="1"/>
+      <circle radius="0.1" vertex-count="6"/>
+    </group>
+  </group>
+
+    <!-- ** full-cylinder (including bottom/top face) ** -->
+    <group id="full-cylinder">
+        <translate x="0" y="0" z="-0.5" />
+        <cylinder bottom="1" top="1" height="1" slices="20" stacks="1" />
+        <group>
+            <rotate axis-x="1" axis-y="0" axis-z="0" angle="180" />
+            <group id="full-cylinder-circle">
+                <circle radius="1" vertex-count="20" />
+            </group>
+        </group>
+        <group>
+            <translate x="0" y="0" z="1" />
+            <insert-group reference="full-cylinder-circle" />
+        </group>
+    </group>
+
+    <!-- ** robot parameters ** -->
+    <param name="rob-mov-angle"><value><sin operand="2beat" /></value></param>
+
+    <param name="rob-height-variation"><value>
+        <sub left="0"><right>
+            <mult left="rob-mov-angle" right="rob-mov-angle" />
+        </right></sub>
+    </value></param>
+
+    <param name="rob-head-angle"><value>
+        <mult left="30"><right>
+            <add left="rob-mov-angle"><right>
+                <sin operand="beat" />
+            </right></add>
+        </right></mult>
+    </value></param>
+
+    <param name="rob-arm-height-angle" value="70" />
+
+    <param name="rob-limb-angle1"><value>
+        <mult left="40" right="rob-mov-angle"/>
+    </value></param>
+
+    <param name="rob-limb-angle2"><value>
+        <sub left="180"><right>
+            <div left="rob-limb-angle1" right="2" />
+        </right></sub>
+    </value></param>
+
+    <param name="rob-arm-left-angle"><value>
+        <add left="40" right="rob-limb-angle2" />
+    </value></param>
+
+    <param name="rob-gripper-angle"><value>
+        <add left="10"><right>
+            <div left="rob-limb-angle1" right="2" />
+        </right></add>
+    </value></param>
+
+    <param name="rob-cam-square-wave-z"><value>
+        <mult left="3"><right>
+            <square_wave operand="beat" />
+        </right></mult>
+    </value></param>
+
+    <param name="rob-cam-square-wave-x"><value>
+        <sub left="6" right="rob-cam-square-wave-z" />
+    </value></param>
+
+    <param name="rob-cam-square-wave-y"><value>
+        <add left="6"><right>
+            <mult left="2"><right>
+                <square_wave operand="4beat" />
+            </right></mult>
+        </right></add>
+    </value></param>
+
+    <param name="rob-cam4-null-point" value="21500" /> <!-- stub -->
+
+    <param name="rob-cam4-accel"><value>
+        <max left="-1000"><right>
+            <min left="1000"><right>
+                <div right="500"><left>
+                    <sub left="rob-cam4-null-point" right="time" />
+                </left></div>
+            </right></min>
+        </right></max>
+    </value></param>
+
+    <param name="rob-cam4-angle"><value>
+        <sub left="180"><right>
+            <mult left="rob-cam4-accel" right="rob-cam4-accel" />
+        </right></sub>
+    </value></param>
+
+    <!-- ** the robot ** -->
+    <group id="robot">
+        <color red="0.1" green="0.1" blue="0.1" alpha="1" />
+        <rotate axis-x="1" axis-y="0" axis-z="0" angle="-90" />
+        <translate x="0" y="rob-height-variation" z="0" />
+
+        <!-- index the robots position -->
+        <point id="rob-pos"/>
+
+        <!-- the body -->
+        <sphere radius="1" slices="24" stacks="16" />
+        <group>
+            <spherical-texture filename="../resources/textures/metal.png" />
+            <cylinder bottom="0.4" top="0.4" height="1.5" slices="16" stacks="1" />
+            <group>
+                <translate x="-0.8" y="0" z="0.4" />
+                <spin-array axis-x="1.6" axis-y="0" axis-z="0" angle="0" instances="2" />
+                <group id="rob-arm-sphere">
+                    <sphere radius="0.4" slices="12" stacks="8" />
+                </group>
+            </group>
+        </group>
+
+        <!-- the right arm -->
+        <group>
+            <translate x="0" y="0" z="-1.2" />
+            <rotate axis-x="-1" axis-y="0" axis-z="0" angle="rob-limb-angle1" />
+            <rotate axis-x="0" axis-y="1" axis-z="0" angle="rob-arm-height-angle" />
+            <translate x="-0.8" y="0" z="0.4" />
+            <group id="rob-arm">
+                <spherical-texture filename="../resources/textures/metal.png" />
+                <insert-group reference="rob-arm-sphere" />
+                <group id="rob-limb-element">
+                    <group>
+                        <color red="0.1" green="0.1" blue="0.1" alpha="1" />
+                        <cylinder bottom="0.1" top="0.1" height="1" slices="6" stacks="1" />
+                    </group>
+                    <group>  
+                        <rotate axis-x="1" axis-y="0" axis-z="0" angle="-80" />
+                        <translate x="0.2" y="0" z="0.5" />
+                        <extrude axis-x="0" axis-y="0" axis-z="0.03" angle="45" stacks="24" />
+                        <color red="1" green="1" blue="1" alpha="1" />
+                        <circle radius="0.06" vertex-count="5" />
+                    </group>
+                </group>
+                <group>
+                    <rotate axis-x="1" axis-y="0" axis-z="0" angle="30" />
+                    <rotate axis-x="1" axis-y="-0.5" axis-z="0" angle="rob-limb-angle2" />
+                    <insert-group reference="rob-limb-element" />
+                    <group>
+                        <translate x="0" y="0" z="1" />
+                        <insert-group reference="rob-arm-sphere" />
+                        <group>
+                            <rotate axis-x="0" axis-y="0" axis-z="1" angle="120" />
+                            <rotate axis-x="0" axis-y="1" axis-z="0" angle="90" />
+                            <translate x="0" y="0" z="0.4" />
+                            <rotate axis-x="1" axis-y="0" axis-z="0" angle="rob-gripper-angle" />
+                            <spin-array axis-x="0" axis-y="0" axis-z="0" angle="180" instances="2" />
+                            <group>
+                                <translate x="0" y="0.3" z="0" />
+                                <sphere radius="0.1" slices="5" stacks="5" />
+                            </group>
+                            <group>
+                                <translate x="0" y="0.3" z="0" />
+                                <rotate axis-x="0" axis-y="1" axis-z="0" angle="-90" />
+                                <extrude axis-x="0" axis-y="0" axis-z="0" angle="30" stacks="3" />
+                                <circle radius="0.1" vertex-count="5" />
+                            </group>
+                        </group>
+                    </group>
+                </group>
+            </group>
+        </group>
+
+        <!-- the left arm -->
+        <group>
+            <translate x="0" y="0" z="-1.2" />
+            <rotate axis-x="1" axis-y="0" axis-z="0" angle="rob-limb-angle1" />
+            <rotate axis-x="0" axis-y="-1" axis-z="0" angle="rob-arm-height-angle" />
+            <translate x="0.8" y="0" z="0.4" />
+            <insert-group reference="rob-arm" />
+        </group>
+
+        <!-- the legs -->
+        <group>
+            <translate x="-0.6" y="0" z="-0.7" />
+            <spin-array axis-x="0" axis-y="0" axis-z="0" angle="180" instances="2" />
+            <spherical-texture filename="../resources/textures/metal.png" />
+            <group id="rob-leg-sphere">
+                <sphere radius="0.5" slices="12" stacks="8" />
+            </group>
+            <group>
+                <translate x="0" y="0" z="-1.5" />
+                <rotate axis-x="0" axis-y="1" axis-z="0" angle="30" />
+                <rotate axis-x="1" axis-y="0" axis-z="0" angle="rob-limb-angle1" />
+                <insert-group reference="rob-leg-sphere" />
+                <group id="rob-leg-element">
+                    <scale x="1.5" y="1.5" z="1.5" />
+                    <insert-group reference="rob-limb-element" />
+                </group>
+                <group>
+                    <rotate axis-x="0" axis-y="1" axis-z="0" angle="30" />
+                    <rotate axis-x="1" axis-y="0" axis-z="0" angle="rob-limb-angle2" />
+                    <insert-group reference="rob-leg-element" />
+                    <group>
+                        <translate x="0" y="0" z="1.5" />
+                        <insert-group reference="rob-leg-sphere" />
+                        <group>   
+                            <scale x="0.6" y="1" z="0.2" />
+                            <translate x="0" y="0" z="-0.4" />
+                            <rotate axis-x="1" axis-y="0" axis-z="0" angle="rob-limb-angle2" />
+                            <color red="0.1" green="0.1" blue="0.1" alpha="1" />
+                            <cube size="1.5" />
+                        </group>
+                    </group>
+                </group>
+            </group>
+        </group>
+
+        <!-- the robot head -->
+        <group id="rob-head">
+            <translate x="0" y="0" z="2.2" />
+            <rotate axis-x="0" axis-y="0" axis-z="1" angle="rob-head-angle" />
+            <sphere radius="1.2" slices="24" stacks="12" />
+            <group>
+                <rotate axis-x="1" axis-y="0" axis-z="0" angle="-90" />
+                <rotate axis-x="0" axis-y="0" axis-z="1" angle="-30" />
+                <spin-array axis-x="0" axis-y="0" axis-z="0" angle="60" instances="2" />
+                <rotate axis-x="1" axis-y="0" axis-z="0" angle="60" />
+                <spherical-texture filename="../resources/textures/metal.png" />
+                <cylinder top="0.4" bottom="0.4" height="1.5" slices="12" stacks="1" />
+                <group>
+                    <translate x="0" y="0" z="1.5" />
+                    <sphere radius="0.4" slices="12" stacks="8" />
+                </group>
+            </group>
+            <group>
+                <translate x="0" y="0.6" z="0" />
+                <group>
+                    <scale x="0.8" y="0.8" z="0.5" />
+                    <color red="1" green="1" blue="1" alpha="1" />
+                    <insert-group reference="full-cylinder" />
+                </group>
+                <group>
+                    <scale x="0.9" y="0.9" z="0.3" />
+                    <color red="0" green="0" blue="0.6" alpha="1" />
+                    <insert-group reference="full-cylinder" />
+                </group>
+            </group>
+        </group> 
+    </group>
+
+    <group id="rob-world">
+        <!-- ** the robot and it's cams ** -->
+        <group>
+            <translate x="4" y="0" z="0" />
+            <rotate axis-x="0" axis-y="1" axis-z="0" angle="t100" />
+            <scale x="0.2" y="0.2" z="0.2" />
+            <translate x="1.8" y="-3.5" z="1" />
+
+            <!-- ** insert the robot ** -->
+            <insert-group reference="robot"/>
+
+            <!-- ** cam2 ** -->
+            <group>
+              <translate x="-6" y="-0.5" z="0"/>
+              <rotate axis-x="0" axis-y="-2" axis-z="0" angle="t100" />
+              <point id="rob-cam2" />
+            </group>
+
+            <!-- ** cam3 ** -->
+            <group>
+              <translate x="rob-cam-square-wave-x" y="rob-cam-square-wave-y" z="rob-cam-square-wave-x"/>
+              <rotate axis-x="-0.6" axis-y="2" axis-z="0" angle="t100" />
+              <point id="rob-cam3" />
+            </group>
+
+            <!-- ** spot ** -->
+            <group>
+              <translate x="0" y="15" z="-6"/>
+              <point id="rob-spot1" />
+            </group>
+        </group>
+    
+        <!-- ** the gate ** -->
+        <group>
+            <rotate axis-x="0" axis-y="0" axis-z="1" angle="20" />
+            <rotate axis-x="0" axis-y="1" axis-z="0" angle="20" />
+            <translate x="0.5" y="-2.7" z="-3" />
+
+            <insert-group reference="gate" />
+
+            <!-- ** cam4 ** -->
+            <group>
+              <translate x="-5" y="0" z="0" />
+              <rotate axis-x="-0.7" axis-y="3" axis-z="0" angle="rob-cam4-angle" />-->
+              <translate x="5" y="0" z="0" />
+              <point id="rob-cam4" />
+            </group>
+        </group>
+
+        <!-- ** the terrain ** -->
+        <group>
+            <color red="1" green="1" blue="1" alpha="1" />
+            <terrain width="20" height="-6" subdivisions="6" seed="0.4" />
+        </group>
+
+        <!-- ** the sky ** -->
+        <group id="rob-sky">
+            <rotate axis-x="1" axis-y="0" axis-z="0" angle="90" />
+            <extrude axis-x="0" axis-y="60" axis-z="0" angle="0" stacks="1" />
+            <translate x="-1" y="20" z="-3"/>
+            <color red="1" green="0.4" blue="0.0" alpha="1" />
+            <circle radius="11" vertex-count="12" />
+        </group>
+
+        <!-- ** cam1 ** -->
+        <group>
+            <translate x="4" y="-3.4" z="4"/>-->
+            <rotate axis-x="0.5" axis-y="3" axis-z="1.5" angle="t10" />-->
+            <translate x="0" y="1" z="-1"/>
+            <point id="rob-cam1" />
+        </group>
+    
+        <!-- ** sun ** -->
+        <group>
+          <translate x="20" y="20" z="20"/>
+          <point id="sun-lamp1"/>
+        </group>
+    </group>
+    
+    <!-- ** World ** -->
+    <group id="world">
+        <insert-group reference="rob-world" />
+    </group>
+
+  <camera-list>
+    <fixed-camera key="1" position="rob-cam1" lookat="rob-pos" opening="1"/>
+    <fixed-camera key="2" position="rob-cam2" lookat="rob-pos" opening="0.8"/>
+    <fixed-camera key="3" position="rob-cam3" lookat="rob-pos" opening="1.4"/>
+    <fixed-camera key="4" position="rob-cam4" lookat="gate-pos" opening="1"/>
+  </camera-list>
+
+  <light-list>
+    <!-- ** ambient light ** -->
+    <ambient intensity="0.3"/>
+
+    <!-- ** the gate spot ** -->
+    <spot position="gate-spot" lookat="gate-pos" cutoff="40" exponent="16" intensity="4"/>
+
+    <!-- ** the robot world lights ** -->
+    <sun position="rob-sun1" direction="rob-pos" red-intensity="0.95" green-intensity="0.85" blue-intensity="0.6" />
+    <spot position="rob-spot1" lookat="rob-pos" cutoff="45" exponent="16" intensity="5"/>
+    <lamp position="rob-cam2" intensity="2" />
+  </light-list>
+
+  <camera-schedule>
+    <checkpoint camera="0" time="0"/>
+    <checkpoint camera="1" time="6300"/>
+    <checkpoint camera="2" time="12600"/>
+    <checkpoint camera="3" time="22500"/>
+    <checkpoint camera="0" time="28000"/> <!-- Leave the scene -->
+  </camera-schedule>
+
+  <music filename="../resources/14 - Comic Bakery.ogg"/>
+
+</scene>

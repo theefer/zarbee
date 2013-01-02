@@ -1,0 +1,602 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene id="scene 3">
+    <!--__________________________ZARBEE SCENE 3____________________________________________________________________-->
+    <!--____________________________________________________________________________________________________________-->
+	
+	<!--____________________PARAMETERS FOR THE SCENE__________________________________________________________-->
+	<!--______________________________________________________________________________________________________-->
+
+	<param name="alpha1">
+		<value>
+			<div left="time" right="10" />
+		</value>
+	</param>
+	
+	<param name="alpha2">
+		<value>
+			<div left="time" right="500" />
+		</value>
+	</param>
+
+	<param name="cam3-angle">
+		<value>
+			<div left="time" right="25" />
+		</value>
+	</param>
+	
+	<param name="wing-angle">
+		<value>
+			<mult left="15">
+				<right><cos operand="alpha1" /></right>
+			</mult>
+		</value>
+	</param>
+
+	<param name="eight-angle-z">
+		<value>
+			<div left="time" right="1100"/>
+		</value>
+	</param>
+	
+	<param name="eight-angle-x">
+		<value>
+			<div left="time" right="550"/>
+		</value>
+	</param>
+	
+	<param name="eight-angle">
+		<value>
+			<mult left="135">
+				<right><sin operand="eight-angle-z"/></right>
+			</mult>
+		</value>
+	</param>
+	
+	<param name="eight-z">
+		<value>
+			<mult left="3.5">
+				<right><cos operand="eight-angle-z"/></right>
+			</mult>
+		</value>
+	</param>
+	
+	<param name="eight-x">
+		<value>
+			<mult left="-2">
+				<right><sin operand="eight-angle-x"/></right>
+			</mult>
+		</value>
+	</param>
+
+	<param name="daylight-angle">
+		<value>
+			<div left="time" right="2500" />
+		</value>
+	</param>
+	
+	<param name="day-night-angle">
+		<value>
+			<div left="time" right="5000" />
+		</value>
+	</param>
+	
+	<param name="daylight">
+		<value>
+			<add left="0.5">
+				<right>
+					<mult left="0.5">
+						<right><sin operand="daylight-angle"/></right>
+					</mult>
+				</right>
+			</add>
+		</value>
+	</param>
+	
+	<param name="daylight-red">
+		<value>
+			<add left="0.9">
+				<right>
+                  		<min left="0.5">
+                         		<right>
+                                		<max left="-0.5">
+                                     		<right>
+	                                       		<mult left="0.9">
+						                  	<right><sin operand="daylight-angle"/></right>
+                                           		</mult>
+                                     		</right>
+                               		</max>
+                        		</right>
+                    		</min>
+				</right>
+			</add>
+		</value>
+	</param>
+
+	<param name="daylight-lamp">
+		<value>
+			<mult left="10" right="daylight"/>
+		</value>
+	</param>
+	
+	<param name="sun-angle-x">
+		<value>
+			<cos operand="daylight-angle"/>
+		</value>
+	</param>
+	
+	<param name="sun-angle-y">
+		<value>
+      	      <mult left="-1">
+                        <right><sin operand="daylight-angle"/></right>
+            	</mult>
+		</value>
+	</param>
+		
+	<param name="lamp-angle-x">
+		<value>
+            	<mult left="-10">
+                  	<right><cos operand="daylight-angle"/></right>
+            	</mult>
+		</value>
+	</param>
+
+    	<param name="lamp-angle-y">
+		<value>
+            	<mult left="10">
+                  	<right><sin operand="daylight-angle"/></right>
+            	</mult>
+		</value>
+	</param>
+	
+	<!--___________________WORLD BEGINS HERE__________________________________________________________________________-->
+	<!--______________________________________________________________________________________________________________-->
+	
+	<group id="world">
+        
+		<point id="origin" />
+		<group>
+        		<scale x="0.1" y="0.1" z="0.1"/>
+
+			<!--____________BEE HIVE: spheres___________________________-->
+
+			<group id="bee hive">
+				<translate x="-8" y="-5" z="-12"/>
+				<scale x="0.75" y="0.75" z="0.75"/>
+    	    	<linear-texture filename="../resources/textures/bhive.png"/>
+				<group>
+					<sphere slices="30" stacks="20" radius="6"/>
+				</group>
+				<group>
+					<translate x="0" y="2" z="0"/>
+					<sphere slices="30" stacks="20" radius="5"/>
+				</group>
+				<group>
+					<translate x="0" y="4" z="0"/>
+					<sphere slices="30" stacks="20" radius="4"/>
+				</group>
+				<group>
+					<translate x="0" y="5" z="0"/>
+					<sphere slices="30" stacks="20" radius="3.5"/>
+				</group>
+			</group>
+	
+			<!--_____________GROUND AND SKY_________________________________-->
+		
+			<group id="ground and sky">
+				<translate x="0" y="2" z="0"/>			
+				<group id="sky">
+ 	      			<linear-texture filename="../resources/textures/cloud2.png"/>
+					<scale x="40" y="40" z="40"/>
+					<sphere slices="200" stacks="200" radius="1"/>
+				</group>
+				<group id="grass">
+					<translate x="-20" y="0" z="-25"/>
+					<group>
+						<scale x="5" y="5" z="5"/>
+						<rotate angle="90" axis-x="-1" axis-y="0" axis-z="0"/>
+						<translate x="0" y="-5" z="-15"/>
+        					<linear-texture filename="../resources/textures/grass_bjo.png"/>
+						<polygon>
+							<vertex x="-18" y="0" z="0"/>
+							<vertex x="-18" y="-18" z="0"/>
+							<vertex x="18" y="-18" z="0"/>
+							<vertex x="18" y="0" z="0"/>
+						</polygon>
+					</group>
+				</group>
+			
+				<!--_____________ROCKS: spheres_____________________________-->
+
+				<group id="rocks">
+					<translate x="10" y="-5.5" z="1"/>
+					<group>
+						<rotate angle="30" axis-x="0" axis-y="-1" axis-z="0"/>
+						<translate x="0" y="0.5" z="0.5"/>
+						<scale x="1.5" y="1.5" z="1.5"/>
+      		  			<linear-texture filename="../resources/textures/granit_m.png"/>
+						<sphere slices="50" stacks="40" radius="1.5"/>
+					</group>
+					<group>
+						<rotate angle="20" axis-x="-1" axis-y="0" axis-z="0"/>
+						<translate x="0.5" y="0.2" z="3"/>
+        					<linear-texture filename="../resources/textures/granit_m.png"/>
+						<sphere slices="50" stacks="40" radius="2"/>
+					</group>
+				</group>
+	
+				<!--________TREE: spheres and cylinder_______________________-->				
+
+				<group id="tree">
+					<scale x="1.3" y="1.3" z="1.3"/>
+					<translate x="-12.7" y="1" z="7"/>
+					<group id="tree-top">
+      						<linear-texture filename="../resources/textures/evergreen.png"/>
+						<group>
+							<translate x="0" y="0.85" z="0"/>
+							<rotate angle="30" axis-x="0" axis-y="1" axis-z="0"/>
+							<scale x="3" y="3" z="3"/>
+							<sphere slices="30" stacks="20" radius="1"/>
+						</group>
+                        <group>
+							<rotate angle="30" axis-x="0" axis-y="1" axis-z="0"/>
+							<scale x="2" y="2" z="2"/>
+    						<group>
+    	   				    <translate x="0" y="0.85" z="0"/>
+	   						<sphere slices="30" stacks="20" radius="1.2"/>
+						</group>
+						<group>
+							<translate x="0" y="0.85" z="0.95"/>
+                            <group id="tree-sphere">
+    							<sphere slices="30" stacks="20" radius="1"/>
+                            </group>
+						</group>
+						<group>
+							<translate x="0" y="1.2" z="-0.65"/>
+                            <insert-group reference="tree-sphere" />
+						</group>
+						<group>
+							<translate x="0.5" y="1.9" z="-0.8"/>
+                            <insert-group reference="tree-sphere" />
+						</group>
+						<group>
+							<translate x="-0.5" y="1.9" z="-0.8"/>
+                            <insert-group reference="tree-sphere" />
+						</group>
+						<group>
+							<translate x="-0.5" y="0.9" z="-0.8"/>
+                            <insert-group reference="tree-sphere" />
+						</group>
+						<group>
+							<translate x="0.1" y="2.2" z="0.2"/>
+                            <insert-group reference="tree-sphere" />
+						</group>
+						<group>
+							<translate x="0.7" y="1.6" z="0.3"/>
+                            <insert-group reference="tree-sphere" />
+						</group>
+						<group>
+							<translate x="0.25" y="2.5" z="-0.1"/>
+                            <insert-group reference="tree-sphere" />
+						</group>
+						<group>
+							<translate x="0.15" y="1.95" z="0.6"/>
+                            <insert-group reference="tree-sphere" />
+						</group>
+                        </group>
+					</group>
+					<group id="tree-foot">
+					     <rotate angle="90" axis-x="1" axis-y="0" axis-z="0"/>
+					     <scale x="5" y="5" z="5"/>
+				      	 <color red="0.6" green="0.2" blue="0.2" alpha="1" />
+ 		                 <cylinder bottom="0.1" top="0.1" height="1" slices="40" stacks="10" />
+					</group>
+				</group>
+			</group>
+	
+			<!--_______________FLOWERS: built of polygons as petals, cylinders as feet, spheres as centers and polygons as leafs_________-->
+	
+			<group id="flower 1">
+				<translate x="-7.5" y="-1.0" z="3.5"/>
+				<scale x="2" y="2" z="2"/>
+            	<color red="1.0" green="1.0" blue="1.0" alpha="1.0" />
+				<group id="flower petal 11">
+				 	<color red="1.0" green="0" blue="0" alpha="1" />
+					<group id="flower petal polygon">
+    					<scale x="0.01" y="0.02" z="0.01"/>
+                        <polygon>
+                            <vertex x="6" y="0" z="7"/>
+                            <vertex x="12" y="0" z="12"/>
+                            <vertex x="15" y="0" z="13"/>
+                            <vertex x="18" y="1" z="12"/>
+                            <vertex x="21" y="2.5" z="10"/>
+                            <vertex x="24" y="4" z="6"/>
+                            <vertex x="26" y="5" z="0"/>
+                            <vertex x="24" y="4" z="-6"/>
+                            <vertex x="21" y="2.5" z="-10"/>
+							<vertex x="18" y="1" z="-12"/>
+							<vertex x="15" y="0" z="-13"/>
+							<vertex x="12" y="0" z="-12"/>
+							<vertex x="6" y="0" z="-7"/>
+							<vertex x="0" y="0" z="0"/>
+						</polygon>
+					</group>
+				</group>
+				<group id="flower petal 12">
+					<rotate angle="90" axis-x="0" axis-y="1" axis-z="0"/>
+					<translate x="-0.05" y="0" z="-0.05"/>
+					<insert-group reference="flower petal polygon"/>
+				</group>
+				<group id="flower petal 13">
+					<rotate angle="180" axis-x="0" axis-y="1" axis-z="0"/>
+					<translate x="-0.1" y="0" z="0"/>
+					<insert-group reference="flower petal polygon"/>
+				</group>
+				<group id="flower petal 14">
+					<rotate angle="270" axis-x="0" axis-y="1" axis-z="0"/>
+					<translate x="-0.05" y="0" z="0.05"/>
+					<insert-group reference="flower petal polygon"/>
+				</group>
+				<group id="flower center 1">
+					<scale x="0.05" y="0.05" z="0.05"/>
+				 	<color red="1.0" green="1.0" blue="0" alpha="1" />
+					<translate x="-0.05" y="0" z="0"/>
+					<sphere slices="30" stacks="30" radius="1"/>
+				</group>
+				<group id="flower foot 1">
+	  				<translate x="-0.05" y="-0.05" z="0"/>
+					<rotate angle="90" axis-x="1" axis-y="0" axis-z="0"/>
+  				 	<color red="0" green="1.0" blue="0" alpha="1" />
+					<cylinder bottom="0.03" top="0.03" height="0.5" slices="20" stacks="10" />
+				</group>
+				<group id="flower leaf 1">
+					<rotate angle="30" axis-x="0" axis-y="0" axis-z="1"/>
+					<scale x="0.01" y="0.03" z="0.01"/>
+					<translate x="-0.05" y="-0.5" z="0"/>
+                  		<group id="flower leaf polygon">
+ 		                       	<polygon>
+							<vertex x="6" y="0" z="7"/>
+							<vertex x="12" y="0" z="12"/>
+							<vertex x="15" y="0" z="13"/>
+							<vertex x="18" y="0.5" z="12"/>
+							<vertex x="21" y="1.0" z="10"/>
+							<vertex x="24" y="2.0" z="6"/>
+						     	<vertex x="26" y="3" z="0"/>
+						      <vertex x="24" y="2.0" z="-6"/>
+						      <vertex x="21" y="1.0" z="-10"/>
+							<vertex x="18" y="0.5" z="-12"/>
+							<vertex x="15" y="0" z="-13"/>
+							<vertex x="12" y="0" z="-12"/>
+							<vertex x="6" y="0" z="-7"/>
+		                        	<vertex x="0" y="0" z="0"/>
+						</polygon>
+					</group>
+				</group>
+			</group>
+
+	            <group id="flower 2">
+      	             <translate x="-11" y="0" z="8.5"/>
+            	       <group>
+	            	      <rotate angle="180" axis-x="0" axis-y="1" axis-z="0"/>
+					<group>
+	      	                  <translate x="15" y="0" z="-7"/>
+      	                  	<insert-group reference="flower 1"/>
+					</group>
+				</group>
+	            </group>
+      	      
+			<group id="flower 3">
+				<rotate angle="270" axis-x="0" axis-y="1" axis-z="0"/>
+				<translate x="-6.6" y="-1" z="4.3"/>
+				<scale x="2" y="2" z="2"/>
+            	<color red="1.0" green="1.0" blue="1.0" alpha="1.0" />
+				<group id="flower petal 31">
+				 	<color red="1.0" green="1.0" blue="1.0" alpha="1" />
+				 	<insert-group reference="flower petal polygon"/>
+				</group>
+				<group id="flower petal 32">
+					<rotate angle="90" axis-x="0" axis-y="1" axis-z="0"/>
+					<translate x="-0.05" y="0" z="-0.05"/>
+					<insert-group reference="flower petal polygon"/>
+				</group>
+				<group id="flower petal 33">
+					<rotate angle="180" axis-x="0" axis-y="1" axis-z="0"/>
+					<translate x="-0.1" y="0" z="0"/>
+					<insert-group reference="flower petal polygon"/>
+				</group>
+				<group id="flower petal 34">
+					<rotate angle="270" axis-x="0" axis-y="1" axis-z="0"/>
+					<translate x="-0.05" y="0" z="0.05"/>
+					<insert-group reference="flower petal polygon"/>
+				</group>
+				<group id="flower center 3">
+					<scale x="0.05" y="0.05" z="0.05"/>
+				 	<color red="1.0" green="1.0" blue="0" alpha="1" />
+					<translate x="-0.05" y="0" z="0"/>
+					<sphere slices="30" stacks="30" radius="1"/>
+				</group>
+				<group id="flower foot 3">
+	  				<translate x="0.1" y="-0.04" z="-0.01"/>
+	  				<insert-group reference="flower foot 1"/>
+				</group>
+				<group id="flower leaf 3">
+					<rotate angle="30" axis-x="0" axis-y="0" axis-z="1"/>
+					<scale x="0.007" y="0.03" z="0.007"/>
+					<translate x="-0.05" y="-0.5" z="0"/>
+					<insert-group reference="flower leaf polygon"/>
+				</group>
+			</group>
+
+			<group id="flower 4">
+				<translate x="-12" y="0" z="5"/>
+            	      <group>
+					<rotate angle="45" axis-x="0" axis-y="1" axis-z="0"/>
+			            <group>
+      	                  	<translate x="13" y="0" z="-8"/>
+            	                  <insert-group reference="flower 3"/>
+					</group>
+				</group>
+			</group>
+		
+			<group id="flower 5">
+				<scale x="0.8" y="0.8" z="0.8"/>
+				<rotate angle="270" axis-x="0" axis-y="1" axis-z="0"/>
+				<translate x="-5" y="-1.2" z="3.7"/>
+				<scale x="2" y="2" z="2"/>
+            	<color red="1.0" green="1.0" blue="1.0" alpha="1.0" />
+				<group id="flower petal 51">
+					<scale x="0.01" y="0.01" z="0.01"/>
+            		      <color red="0" green="0" blue="1.0" alpha="1" />
+					<insert-group reference="flower petal polygon"/>
+				</group>
+				<group id="flower petal 52">
+					<rotate angle="90" axis-x="0" axis-y="1" axis-z="0"/>
+					<translate x="-0.05" y="0" z="-0.05"/>
+					<insert-group reference="flower petal polygon"/>
+				</group>
+				<group id="flower petal 53">
+					<rotate angle="180" axis-x="0" axis-y="1" axis-z="0"/>
+					<translate x="-0.1" y="0" z="0"/>
+					<insert-group reference="flower petal polygon"/>
+				</group>
+				<group id="flower petal 54">
+					<rotate angle="270" axis-x="0" axis-y="1" axis-z="0"/>
+					<translate x="-0.05" y="0" z="0.05"/>
+					<insert-group reference="flower petal polygon"/>
+				</group>
+				<group id="flower center 5">
+					<scale x="0.05" y="0.05" z="0.05"/>
+					<color red="1.0" green="1.0" blue="0" alpha="1" />
+					<translate x="-0.05" y="0" z="0"/>
+					<sphere slices="30" stacks="30" radius="1"/>
+				</group>
+				<group id="flower foot 5">
+	  				<translate x="-0.05" y="-0.05" z="-0.03"/>
+					<color red="0" green="1.0" blue="0" alpha="1" />
+					<scale x="0.45" y="5" z="0.45"/>
+					<cube size="0.1"/>
+				</group>
+				<group id="flower leaf 5">
+					<rotate angle="30" axis-x="0" axis-y="0" axis-z="1"/>
+					<scale x="0.005" y="0.02" z="0.005"/>
+					<translate x="-0.05" y="-0.3" z="0"/>
+					<insert-group reference="flower leaf polygon"/>
+				</group>
+			</group>
+
+			<!--________________BEE: spheres and two polygons for wings____________________-->
+		
+			<group id="bee">
+   				<translate x="0.0" y="0" z="3.0"/>				
+				<group>
+	   				<translate x="0.0" y="0" z="-2.0"/>
+					<rotate angle="eight-angle" axis-x="0" axis-y="-1" axis-z="0"/>
+					<translate x="eight-x" y="0" z="eight-z"/>
+
+					<!--_______CAMERA 2: position and lookat point follow bee movements_________-->
+		
+					<group id="cam2">
+						<translate x="6" y="2.5" z="2.75"/>
+						<point id="cam2"/>
+					</group>
+			
+					<group id="lookat2">
+						<translate x="5.5" y="2.5" z="2.75"/>
+						<point id="lookat2"/>	
+					</group>			
+		
+					<group id="striped body">				
+	      				<linear-texture filename="../resources/textures/stripe.png"/>
+						<translate x="0.0" y="-0.5" z="2.0"/>
+						<sphere slices="60" stacks="50" radius="1.0" />
+		
+						<group id="head">
+       						<linear-texture filename="../resources/textures/black.png"/>
+							<translate x="-1.0" y="0" z="0"/>
+							<sphere slices="20" stacks="20" radius="0.5"/>
+						</group>
+						<group id="right wing">
+            	            <color red="1.0" green="1.0" blue="1.0" alpha="0.5" />
+							<scale x="0.1" y="0.1" z="0.1"/>
+							<translate x="0.5" y="0.5" z="-0.5"/>
+							<rotate angle="90" axis-x="0" axis-y="1" axis-z="0"/>
+							<rotate angle="wing-angle" axis-x="1" axis-y="0" axis-z="0"/>
+                            <group id="wing-poly">
+    							<polygon>
+    								<vertex x="0" y="0" z="0"/>
+    								<vertex x="3" y="0" z="-4"/>
+    								<vertex x="6" y="0" z="-7"/>
+    								<vertex x="9" y="0" z="-10"/>
+    								<vertex x="12" y="0" z="-12"/>
+    								<vertex x="15" y="0" z="-13"/>
+    								<vertex x="19" y="0" z="-12"/>
+    								<vertex x="22" y="0" z="-10"/>
+    								<vertex x="25" y="0" z="-6"/>
+    								<vertex x="26" y="0" z="0"/>
+    								<vertex x="25" y="0" z="6"/>
+    								<vertex x="22" y="0" z="10"/>
+    								<vertex x="19" y="0" z="12"/>
+    								<vertex x="15" y="0" z="13"/>
+    								<vertex x="12" y="0" z="12"/>
+    								<vertex x="9" y="0" z="10"/>
+    								<vertex x="6" y="0" z="7"/>
+    								<vertex x="3" y="0" z="4"/>
+    							</polygon>
+                            </group>
+						</group>
+			
+						<group id="left wing">	
+                  	          		<color red="1.0" green="1.0" blue="1.0" alpha="0.5" />
+							<scale x="0.1" y="0.1" z="0.1"/>
+							<translate x="0.5" y="0.5" z="0.5"/>
+							<rotate angle="-90" axis-x="0" axis-y="1" axis-z="0"/>
+							<rotate angle="wing-angle" axis-x="1" axis-y="0" axis-z="0"/>
+                            <insert-group reference="wing-poly" />
+						</group>
+					</group>
+				</group>
+			</group>
+			
+		</group>
+
+	<!--__________CAMERAS AND LIGHT___________________________________________________________________________-->
+	<!--______________________________________________________________________________________________________-->
+
+		<group id="still camera">				
+			<translate x="0.1" y="0.5" z="1.9" />
+			<point id="cam1" />
+		</group>
+
+		<group id="rotating camera">
+			<translate x="1.8" y="0.6" z="1.8" />
+			<rotate angle="cam3-angle" axis-x="0" axis-y="-1" axis-z="0"/>
+			<point id="cam3" />
+		</group>
+		<group>
+			<translate x="lamp-angle-x" y="lamp-angle-y" z="0" />
+			<point id="light0" />
+		</group>
+		<group>
+			<translate x="0" y="8" z="0" />
+			<point id="light1" />
+		</group>
+		<group>
+			<translate x="sun-angle-x" y="sun-angle-y" z="0" />
+			<translate x="0" y="-5" z="0" />
+			<point id="light-sun" />
+		</group>
+	</group>
+
+	<camera-list>
+		<fixed-camera key="1" position="cam1" lookat="origin" opening="1" />
+		<fixed-camera key="2" position="cam2" lookat="lookat2" opening="1" />
+		<fixed-camera key="3" position="cam3" lookat="origin" opening="1" />
+		<free-camera key="4" position="cam1" lookat="origin" opening="1" />
+	</camera-list>
+	<light-list>
+		<ambient intensity="2" />
+		<lamp position="light0" intensity="daylight-lamp" />
+		<lamp position="light1" intensity="daylight-lamp" />
+		<sun  direction="light-sun" red-intensity="daylight" green-intensity="daylight" blue-intensity="daylight"/>
+	</light-list>
+</scene>
