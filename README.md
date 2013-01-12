@@ -10,15 +10,15 @@ camera.
 
 ## Building
 
-To compile, simply run the `Makefile` in the `src` directory:
+To compile, simply run the `configure` script and `make` in the
+top-level directory:
 
-    $ cd src
+    $ ./configure
     $ make
 
 To run a scene, pass it to the `zarbee` executable:
 
-    $ cd src
-    $ ./zarbee ../scenes/scene1.xml
+    $ ./zarbee scenes/scene1.xml
 
 To run the full demo:
 

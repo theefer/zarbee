@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd scenes
-../src/zarbee -s ../resources/14\ -\ Comic\ Bakery.ogg \
+../zarbee -s ../resources/14\ -\ Comic\ Bakery.ogg \
     intro.xml \
     tunnel-1.xml \
     city.xml \
