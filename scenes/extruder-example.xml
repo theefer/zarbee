@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene>
+
+  <group id="world">
+    <color red="1" green="0" blue="0" alpha="1" />
+    <group>
+    	<translate x="3" y="-5" z="-8"/>
+	    <point id="cam1" />
+    </group>
+    <group>
+    	<translate x="5.0" y="4.0" z="-5.0"/>
+	    <point id="light0" />
+    </group>
+
+    <group>
+        <rotate axis-x="-1" axis-y="0" axis-z="0" angle="90" />
+        <translate x="2" y="0" z="0" />
+        <extrude angle="20" axis-x="0.1" axis-y="0.0" axis-z="0.2" stacks="36" />
+        <circle radius="0.3" vertex-count="12" /> 
+    </group>
+    
+    <point id="zero" />
+  </group>
+
+  <camera-list>
+    <fixed-camera key="1" position="cam1" lookat="zero" opening="1"/>
+  </camera-list>
+
+  <light-list>
+    <ambient intensity="0.5"/>
+    <lamp position="light0" intensity="80.0"/>
+  </light-list>
+</scene>

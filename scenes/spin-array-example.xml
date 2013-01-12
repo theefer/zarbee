@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene>
+  <group id="world">
+    <color red="1" green="0" blue="0" alpha="1" />
+
+    <!-- a tail of cubes -->
+    <group>
+    	<translate x="-4.0" y="2.0" z="-1.0"/>
+        <spin-array angle="20" axis-x="0.3" axis-y="0" axis-z="-0.1" instances="20"/>
+	    <cube size="0.5"/>
+    </group>
+
+    <!-- cameras -->
+    <group>
+    	<translate x="4.0" y="1.0" z="-10.0"/>
+	    <point id="cam1" />
+    </group>
+
+    <!-- lights -->
+    <group>
+    	<translate x="5" y="2" z="-5"/>
+	    <point id="light1" />
+    </group>
+
+    <!-- the origin -->
+    <point id="zero" />
+  </group>
+
+  <camera-list>
+    <fixed-camera key="1" position="cam1" lookat="zero" opening="0.7"/>
+  </camera-list>
+
+  <light-list>
+    <ambient intensity="0.5"/>
+    <lamp position="light1" intensity="80.0"/>
+  </light-list>
+
+  <camera-schedule>
+    <checkpoint time="0" camera="1"/>
+  </camera-schedule>
+</scene>

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene>
+
+  <group id="world">
+    <point id="zero" />
+    <group>
+    	<translate x="4" y="4" z="4"/>
+	    <point id="cam" />
+    </group>
+    <group>
+    	<translate x="-1" y="4" z="2"/>
+	    <point id="light" />
+    </group>
+
+    <group>
+        <color red="1" green="0" blue="0" alpha="1" />
+
+        <!-- polygon -->
+<!--        <polygon>
+            <vertex x="1" y="-1" z="0"/>
+            <vertex x="2" y="0" z="0"/>
+            <vertex x="0" y="2" z="0"/>
+            <vertex x="-2" y="1" z="0"/>
+            <vertex x="-3" y="-1" z="0"/>
+        </polygon>-->
+
+        <!-- circle -->
+<!--        <circle radius="2" vertex-count="6"/>-->
+
+        <!-- cube -->
+<!--        <cube size="3"/>-->
+
+        <!-- sphere -->
+<!--        <sphere radius="2" slices="24" stacks="16"/>-->
+
+        <!-- frustum -->
+<!--        <cylinder bottom="2" top="1" height="2" slices="24" stacks="3" />-->
+
+        <!-- terrain -->
+        <terrain width="4" height="3" subdivisions="4" seed="0.128"/>
+
+    </group>
+  </group>
+
+  <camera-list>
+    <fixed-camera key="1" position="cam" lookat="zero" opening="1"/>
+  </camera-list>
+
+  <light-list>
+    <ambient intensity="1.8"/>
+    <lamp position="light" intensity="10"/>
+  </light-list>
+</scene>

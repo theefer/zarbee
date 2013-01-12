@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE scene SYSTEM "zarbee.dtd">
+<scene>
+
+  <group id="world">
+
+    <point id="zero" />
+
+    <group>
+    	<translate x="4" y="8" z="8"/>
+	    <point id="cam" />
+    </group>
+
+    <group>
+    	<translate x="-4" y="10" z="10"/>
+	    <point id="light" />
+    </group>
+
+    <group>
+        <group>
+            <color red="1" green="0.7" blue="0" alpha="1" />
+            <translate x="-5" y="0" z="-2"/>
+            <sphere radius="2" slices="24" stacks="16"/>
+        </group>
+
+        <group>
+            <linear-texture filename="../resources/textures/test_rgb.png"/>
+            <translate x="0" y="0" z="-2"/>
+            <sphere radius="2" slices="24" stacks="16"/>
+        </group>
+
+        <group>
+            <spherical-texture filename="../resources/textures/test_rgb.png"/>
+            <translate x="5" y="0" z="-2"/>
+            <sphere radius="2" slices="24" stacks="16"/>
+        </group>
+
+        <group>
+            <color red="1" green="0.7" blue="0" alpha="0.5" />
+            <translate x="-5" y="0" z="2"/>
+            <sphere radius="2" slices="24" stacks="16"/>
+        </group>
+
+        <group>
+            <linear-texture filename="../resources/textures/test_rgba.png"/>
+            <translate x="0" y="0" z="2"/>
+            <sphere radius="2" slices="24" stacks="16"/>
+        </group>
+
+        <group>
+            <spherical-texture filename="../resources/textures/test_rgba.png"/>
+            <translate x="5" y="0" z="2"/>
+            <sphere radius="2" slices="24" stacks="16"/>
+        </group>
+    </group>
+  </group>
+
+  <camera-list>
+    <fixed-camera key="1" position="cam" lookat="zero" opening="1"/>
+  </camera-list>
+
+  <light-list>
+    <ambient intensity="1.8"/>
+    <lamp position="light" intensity="200"/>
+  </light-list>
+</scene>
