@@ -250,7 +250,7 @@
 
 <!-- LIGHT -->
 
-<!ELEMENT light-list (ambient*, light*, sun*)>
+<!ELEMENT light-list (ambient?, lamp*, spot*, sun*)>
 
 <!ELEMENT ambient EMPTY>
 <!ATTLIST ambient
@@ -260,8 +260,8 @@
           blue-intensity  CDATA #OPTIONAL
 >
 
-<!ELEMENT light EMPTY>
-<!ATTLIST light
+<!ELEMENT lamp EMPTY>
+<!ATTLIST lamp
           position        CDATA #REQUIRED
           intensity       CDATA #OPTIONAL
           red-intensity   CDATA #OPTIONAL
