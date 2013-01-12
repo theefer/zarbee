@@ -294,8 +294,55 @@ BeeCube::~BeeCube() {
 }
 
 void BeeCube::draw() {
-    //FIXME: replace the glut function with a glu function...
-    glutSolidCube((GLfloat)size->getValue());
+
+    glPushMatrix();
+
+    // scale to the correct size
+    glScaled((GLdouble)size->getValue(),
+             (GLdouble)size->getValue(),
+             (GLdouble)size->getValue());
+
+    // draw the cube
+    glBegin(GL_QUADS);
+
+    glNormal3f( 0.0f, -1.0f,  0.0f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glVertex3f( 0.5f, -0.5f, -0.5f);
+    glVertex3f( 0.5f, -0.5f,  0.5f);
+    glVertex3f(-0.5f, -0.5f,  0.5f);
+
+    glNormal3f( 0.0f,  0.0f, -1.0f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glVertex3f(-0.5f,  0.5f, -0.5f);
+    glVertex3f( 0.5f,  0.5f, -0.5f);
+    glVertex3f( 0.5f, -0.5f, -0.5f);
+
+    glNormal3f( 1.0f,  0.0f,  0.0f);
+    glVertex3f( 0.5f, -0.5f, -0.5f);
+    glVertex3f( 0.5f,  0.5f, -0.5f);
+    glVertex3f( 0.5f,  0.5f,  0.5f);
+    glVertex3f( 0.5f, -0.5f,  0.5f);
+
+    glNormal3f( 0.0f,  0.0f,  1.0f);
+    glVertex3f( 0.5f, -0.5f,  0.5f);
+    glVertex3f( 0.5f,  0.5f,  0.5f);
+    glVertex3f(-0.5f,  0.5f,  0.5f);
+    glVertex3f(-0.5f, -0.5f,  0.5f);
+
+    glNormal3f(-1.0f,  0.0f,  0.0f);
+    glVertex3f(-0.5f, -0.5f,  0.5f);
+    glVertex3f(-0.5f,  0.5f,  0.5f);
+    glVertex3f(-0.5f,  0.5f, -0.5f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+
+    glNormal3f( 0.0f,  1.0f,  0.0f);
+    glVertex3f(-0.5f,  0.5f,  0.5f);
+    glVertex3f( 0.5f,  0.5f,  0.5f);
+    glVertex3f( 0.5f,  0.5f, -0.5f);
+    glVertex3f(-0.5f,  0.5f, -0.5f);
+
+    glEnd();
+    glPopMatrix();
 }
 
 bool BeeCube::isCachable() {
@@ -593,7 +640,7 @@ unsigned int BeeTerrain::subdivideVertices2D(Vertex* start, Vertex* end,
     GLfloat heightFac, unsigned int level, unsigned int seed) {
 
     // get the position of the midpoint
-    Vertex* midpoint = (start + (end - start) / 2);
+    Vertex* midpoint = start + ((end - start) / 2);
 
     // interpolate the midpoint
     center(midpoint, start, end);
@@ -619,7 +666,7 @@ unsigned int BeeTerrain::subdivideVertices3D(Vertex* e0, Vertex* e1, Vertex* e2,
 
     // set the pointer to the midpoints of (e0, e1) and (e0, e2)
     Vertex* m0 = e0 + step;
-    Vertex* m1 = (e0 + (e2 - e0) / 2);
+    Vertex* m1 = e0 + ((e2 - e0) / 2);
 
     // set the pointers to the target vertices
     Vertex* t0 = m1 + step;

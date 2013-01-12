@@ -196,7 +196,7 @@ ZarDiv::updateCache(bool force) {
 
     // Avoid division by zero
     zartype rightVal = right->getValue();
-    value = left->getValue() / (rightVal != 0.0 ? rightVal : INFINITY);
+    value = rightVal != 0.0 ? (left->getValue() / rightVal) : 0.0; //INFINITY;
   }
 }
 

@@ -14,7 +14,8 @@
 #include <iostream>
 #include <map>
 #include <list>
-#include <cstring>
+
+#include <cstring>  /* For strcmp. */
 
 
 /**

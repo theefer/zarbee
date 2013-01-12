@@ -8,7 +8,7 @@
 #ifndef _bee_base_hh_
 #define _bee_base_hh_
 
-#include <GL/glut.h>
+#include <GL/glu.h>
 #include "zar_nodes.hh"
 
 // ***********************************
