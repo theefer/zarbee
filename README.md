@@ -13,6 +13,7 @@ camera.
 To compile, simply run the `configure` script and `make` in the
 top-level directory:
 
+    $ autoreconf -i
     $ ./configure
     $ make
 
