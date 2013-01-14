@@ -95,7 +95,7 @@ void switchScene() {
         quit(EXIT_SUCCESS);
     }
     
-    delete world;   // delete the old world first
+    // FIXME: For now we don't care about reclaming memory from past scenes
     
     world = worlds->back();
     worlds->pop_back();
