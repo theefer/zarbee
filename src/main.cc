@@ -440,6 +440,7 @@ void initSDL() {
 int main(int argc, char **argv) 
 {   
     glutInit(&argc, argv);
+    glutCreateWindow("ZarBee");
 
     // init global objects
     worlds = new list<World*>();
@@ -466,7 +467,7 @@ int main(int argc, char **argv)
                 else if (argv[i][j] == 's') {    // Sound file
                     ++i;
                     ifstream* in = new ifstream(argv[i]);
-                    if ((*in) != NULL) {
+                    if (*in) {
                         // init Music
                         music = new Music(argv[i], false);  //do not loop
                         break;
