@@ -295,7 +295,7 @@ BeeCube::~BeeCube() {
 
 void BeeCube::draw() {
     //FIXME: replace the glut function with a glu function...
-    glutSolidCube((GLfloat)size->getValue());
+    glutSolidCube((GLdouble)size->getValue());
 }
 
 bool BeeCube::isCachable() {
